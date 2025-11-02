@@ -148,11 +148,68 @@ Następnie przystąpiłem do rozwiązywania zadań z polecenia.
 
 Istnieją dwa sposoby określenia odległości pomiędzy naszą pozycją a każdym z satelitów:
 
-Pierwszy z nich wykorzystuje czas dotarcia sygnału oraz znaną prędkość jego propagacji. Wówczas dystans można wyrazić zależnością $p_i = v_{\text{sygnał}} \cdot t_i$.
+Pierwszy z nich wykorzystuje czas dotarcia sygnału oraz znaną prędkość jego propagacji. Wówczas dystans można wyrazić zależnością:
+$$d_i = v_{\text{syg}} \cdot t_i$$.
 
 Drugi sposób opiera się na geometrycznym obliczeniu odległości w przestrzeni kartezjańskiej, z użyciem wzoru na metrykę euklidesową.
 Porównując wartości uzyskane obiema metodami dla każdego satelity, otrzymujemy pojedyncze równanie odpowiadające danemu satelicie.
 
 $$
 \forall_{i \in S}\ d_i = |X_n - X_i| = \sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2}
+$$
+
+**WERSJA ALTERNATYWNA, JESZCZE DO WERYFIKACJI KTÓRA JEST LEPSZA I ZOSTANIE**
+
+1. Sformułowanie układu równań określających nasze położenie w układzie współrzędnych kartezjańskich
+
+Istnieją dwa podejścia do określenia odległości między odbiornikiem a satelitą.  
+
+Pierwsze wykorzystuje czas nadejścia sygnału $t_i$ i prędkość propagacji sygnału $v_{\text{sygnał}}$, co daje pseudoodległość:
+
+$$
+d_i^{(\text{time})} = v_{\text{sygnał}} \, (t_i - \Delta t),
+$$
+
+gdzie $\Delta t$ jest nieznanym przesunięciem zegara odbiornika (tzw. *bias*).  
+
+Drugie podejście to bezpośrednie obliczenie odległości geometrycznej w układzie kartezjańskim:
+
+$$
+d_i^{(\text{geom})} = \| X_n - X_i \| = \sqrt{(x_n - x_i)^2 + (y_n - y_i)^2 + (z_n - z_i)^2}.
+$$
+
+Porównując obie wartości dla każdego satelity, otrzymujemy układ równań:
+
+$$
+\forall_{i \in S} : \| X_n - X_i \| - v_{\text{sygnał}} \, (t_i - \Delta t) = 0.
+$$
+
+W praktyce układ ten rozwiązuje się w sensie najmniejszych kwadratów (ze względu na obecność błędów pomiarowych), minimalizując funkcję celu:
+
+$$
+F(X_n, \Delta t) = \sum_{i \in S} \left( \| X_n - X_i \| - v_{\text{sygnał}} \, (t_i - \Delta t) \right)^2.
+$$
+
+**KONIEC WERSJI ALTERNATYWNEJ DLA ZADANIA 1**
+
+##### 2. Sformułować zadanie optymalizacji bez ograniczeń stosując metodę najmniejszych kwadratów
+
+Możemy wprowadzić funkcję $f_i$, opisującą różnicę pomiędzy odległością geometryczną w układzie kartezjańskim, a odległością wyznaczoną na podstawie czasu dotarcia sygnału:
+
+$$
+f_i(x_n, y_n, z_n) = \sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2} - d_i
+$$
+
+Na podstawie tej funkcji można wyznaczyć macierz Jacobiego, zbudowaną z pochodnych cząstkowych względem współrzędnych $(x_n, y_n, z_n)$. Macierz ta może być następnie wykorzystana w iteracyjnym algorytmie Levenberga–Marquardta:
+
+- $\frac{\partial f_i}{\partial x_n} = \frac{x_n - x_i}{\sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2}}$
+
+- $\frac{\partial f_i}{\partial y_n} = \frac{y_n - x_i}{\sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2}}$
+
+- $\frac{\partial f_i}{\partial z_n} = \frac{z_n - x_i}{\sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2}}$
+
+W efekcie, całe zadanie można sformułować jako problem optymalizacji nieliniowej bez ograniczeń, polegający na minimalizacji sumy kwadratów funkcji $f_i$:
+
+$$
+\min_{X_n} \sum_{i \in S} \left( \sqrt{(x_n - x_i)^2 + (y_n - y_i)^2 + (z_n - z_i)^2} - d_i \right)^2
 $$
