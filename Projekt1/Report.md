@@ -58,63 +58,101 @@ Przy opracowywaniu rozwiązania, zdefiniowane zostały pomocnicze zmienne oraz p
 
 - $S = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13\}$ - zbiór satelit.
 
-**Parametry**
+**Parametry:**
 Wspomnianej wcześniej w treści zadania parametry jakie przyjmuję to:
 
-- $R = 6378137[m]$ - poziom morza względem środka kuli ziemskiej,
-- $v_{sygnał} = 299792458 [m/s]$ - prędkość sygnału pochodzącego z satelitów,
-- $$ - Wysokość satelity względem powierzchni ziemii //TODO
-- $\forall_{i \in S}\ r_i = TODO + R = 26378137[m]$ - wysokość satelity względem środka kuli ziemskiej,
-- Szerokość geograficzna satelity $i$ w stopniach:
+- $R = 6378137[m]$ - poziom morza względem środka kuli ziemskiej (promień ziemii),
+- $v_{syg} = 299792458 [m/s]$ - prędkość sygnału pochodzącego z satelitów,
+- $h_i$ - Wysokość satelity względem powierzchni ziemii
+- $\forall_{i \in S}\ r_i = h_i + R = 26378137[m]$ - wysokość satelity względem środka kuli ziemskiej,
+- $\theta_i$ - Szerokość geograficzna satelity $i$ w stopniach:
+- $\phi_i$ - Długość geograficzna satelity $i$ w stopniach:
 
-$i$ | $\theta_i$
-----|-----------
-1   |
-2   |
-3   |
-4   |
-5   |
-6   |
-7   |
-8   |
-9   |
-10  |
-11  |
-12  |
-13  |
+Poniżej tabela z wartościami odpowiadającymi każdemu z satelit:
 
-- Długość geograficzna satelity $i$ w stopniach:
+|  i |   $\theta_i$      |    $\phi_i$        |   $h_i$ [m]  | $r_i = R + h_i$ [m] |
+| -: | :---------------: | :----------------: | :----------: | :-----------------: |
+|  1 |  6.1559355081676  |  52.5457318089284  | 19 513 264.0 |     25 891 401.0    |
+|  2 |  47.1886635984881 |  147.8037666254030 | 14 002 215.3 |     20 380 352.3    |
+|  3 | -12.8232765555657 |  -9.4526305456900  | 13 862 417.9 |     20 240 554.9    |
+|  4 |  54.7951930601781 | -127.2512659390310 | 14 061 989.2 |     20 440 126.2    |
+|  5 |  34.2437389209835 |  25.3517357204992  | 13 761 866.5 |     20 140 003.5    |
+|  6 |  53.6353221185862 |  64.8608900078692  | 13 893 736.4 |     20 271 873.4    |
+|  7 |  43.0785026706136 |  -8.0886091756957  | 13 460 953.4 |     19 839 090.4    |
+|  8 |  20.1512104981551 |  62.5555486255998  | 13 819 354.8 |     20 197 491.8    |
+|  9 |  49.2901079265804 |  44.1040081414650  | 14 015 671.6 |     20 393 808.6    |
+| 10 |  49.4552880799264 |  -67.4173769536602 | 13 800 039.6 |     20 178 176.6    |
+| 11 |  38.2248532902654 |  -46.1640423241860 | 13 357 759.5 |     19 735 896.5    |
+| 12 |  25.2062832986468 |  83.7474569414005  | 13 759 876.0 |     20 138 013.0    |
+| 13 |  43.4788434173197 |  -7.4150994801044  | 12 778 112.9 |     19 156 249.9    |
 
-$i$ | $\phi_i$
-----|----------
-1   |
-2   |
-3   |
-4   |
-5   |
-6   |
-7   |
-8   |
-9   |
-10  |
-11  |
-12  |
-13  |
+- $t_i$ - Czasy nadejścia sygnału $i$ w sekundach:
 
-- Czasy nadejścia sygnału $i$ w sekundach:
+|  i  |      $t_i$ [s]      |
+| :-: | :-----------------: |
+|  1  | 0.09642964511743930 |
+|  2  | 0.08511665086736160 |
+|  3  | 0.08389667794635720 |
+|  4  | 0.08487585963182320 |
+|  5  | 0.06871295254797900 |
+|  6  | 0.07072441166066990 |
+|  7  | 0.06821871552527680 |
+|  8  | 0.07546001104207520 |
+|  9  | 0.06920176917880840 |
+|  10 | 0.07764842100743740 |
+|  11 | 0.07453795513145620 |
+|  12 | 0.07812844723686560 |
+|  13 | 0.06584869085813090 |
 
-$i$ | $t_i$
-----|--------------------
-1   |
-2   |
-3   |
-4   |
-5   |
-6   |
-7   |
-8   |
-9   |
-10  |
-11  |
-12  |
-13  |
+Aby przejść do układu kartezjańskiego $(x, y, z)$  mając podane współrzędne sferyczne $(r, \theta, \phi)$, należy zastosować wzory rozpisane przeze mnie poniżej:
+
+- $$x = x(r,\theta, \phi) = r\ \cos\theta\ \cos\phi$$
+- $$y = y(r,\theta, \phi) = r\ \cos\theta\ \sin\phi$$
+- $$z = z(r,\theta, \phi) = r\ \sin\theta$$
+
+Kiedy wykonamy podstawienie danych do powyższych wzorów, uzyskamy współrzędne satelitów w układzie kartezjańskim wyrażone w metrach. Poniżej tabela z przeliczonymiwartościami:
+
+$i$ | $x_i$       | $y_i$       | $z_i$
+----|-------------|-------------|------------
+1   |             |             |
+2   |             |             |
+3   |             |             |
+4   |             |             |
+5   |             |             |  
+6   |             |             |  
+7   |             |             |  
+8   |             |             |  
+9   |             |             |  
+10  |             |             |  
+11  |             |             |  
+12  |             |             |  
+13  |             |             |  
+
+Aby odtworzyć ze współrzędnych kartezjańskich $(x, y, z)$ współrzędne sferyczne $(r, \theta, \phi)$ należy zastosować wzory odwrotne.
+
+- $$r = \sqrt{x^2 + y^2 + z^2}$$
+- $$\theta = \arcsin(\frac{z}{r}) = \arcsin(\frac{z}{\sqrt{x^2 + y^2 + z^2}})$$
+- $$\phi = arctg(\frac{y}{x})$$
+
+**Zmienne:**
+
+Przy rozwiązywaniu zadania wprowadziłem następujące zmienne:
+
+- $d_i = v_{syg} \cdot t_i$ - odległość od satelity $i$, oblicznona na podstawie czasu nadejścia sygnału $t_i$ oraz prędkości rozchodzenia się sygnału $v_{syg}$.
+- $X_n = \begin{bmatrix}x_n \\ y_n \\ z_n\end{bmatrix}$ - poszukiwane współrzędne własne (układ kartezjański),
+- $X_i = \begin{bmatrix}x_i \\ y_i \\ z_i\end{bmatrix}$ - współrzędne satelity $i$ (układ kartezjański),
+
+Następnie przystąpiłem do rozwiązywania zadań z polecenia.
+
+##### 1. Sformułować układ równań określających nasze położenie w układzie współrzędnych kartezjańskich
+
+Istnieją dwa sposoby określenia odległości pomiędzy naszą pozycją a każdym z satelitów:
+
+Pierwszy z nich wykorzystuje czas dotarcia sygnału oraz znaną prędkość jego propagacji. Wówczas dystans można wyrazić zależnością $p_i = v_{\text{sygnał}} \cdot t_i$.
+
+Drugi sposób opiera się na geometrycznym obliczeniu odległości w przestrzeni kartezjańskiej, z użyciem wzoru na metrykę euklidesową.
+Porównując wartości uzyskane obiema metodami dla każdego satelity, otrzymujemy pojedyncze równanie odpowiadające danemu satelicie.
+
+$$
+\forall_{i \in S}\ d_i = |X_n - X_i| = \sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2}
+$$
