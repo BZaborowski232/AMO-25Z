@@ -1,6 +1,6 @@
 # Algorytmy i metody optymalizacji - Raport 1
 
-## Temat: Optymalizacja bez ogranicze - Projekt nr 1; Zestaw nr 13
+## Temat: Optymalizacja bez ograniczeń - Projekt nr 1; Zestaw nr 13
 
 ### Bartosz Zaborowski 319996
 
@@ -112,21 +112,21 @@ Aby przejść do układu kartezjańskiego $(x, y, z)$  mając podane współrzę
 
 Kiedy wykonamy podstawienie danych do powyższych wzorów, uzyskamy współrzędne satelitów w układzie kartezjańskim wyrażone w metrach. Poniżej tabela z przeliczonymiwartościami:
 
-$i$ | $x_i$       | $y_i$       | $z_i$
-----|-------------|-------------|------------
-1   |             |             |
-2   |             |             |
-3   |             |             |
-4   |             |             |
-5   |             |             |  
-6   |             |             |  
-7   |             |             |  
-8   |             |             |  
-9   |             |             |  
-10  |             |             |  
-11  |             |             |  
-12  |             |             |  
-13  |             |             |  
+| $i$| $x_i$        | $y_i$        | $z_i$       |
+| -- | ------------ | ------------ | ----------- |
+| 1  | 15654494.42  | 20435085.79  | 2776457.96  |
+| 2  | -11720439.55 | 7379678.68   | 14950933.06 |
+| 3  | 19467763.22  | -3241242.83  | -4492282.59 |
+| 4  | -7132840.60  | -9379731.43  | 16701556.28 |
+| 5  | 15045421.80  | 7128566.36   | 11333073.96 |
+| 6  | 5106157.74   | 10881138.20  | 16324118.22 |
+| 7  | 14346680.47  | -2038925.08  | 13550094.17 |
+| 8  | 8738968.74   | 16827214.33  | 6958013.95  |
+| 9  | 9551465.72   | 9257309.96   | 15458950.29 |
+| 10 | 5036993.30   | -12110950.83 | 15333374.69 |
+| 11 | 10738212.51  | -11183646.42 | 12211570.56 |
+| 12 | 1984410.46   | 18112094.11  | 8576347.10  |
+| 13 | 13784075.04  | -1793932.77  | 13181160.45 |
 
 Aby odtworzyć ze współrzędnych kartezjańskich $(x, y, z)$ współrzędne sferyczne $(r, \theta, \phi)$ należy zastosować wzory odwrotne.
 
@@ -213,3 +213,102 @@ W efekcie, całe zadanie można sformułować jako problem optymalizacji nielini
 $$
 \min_{X_n} \sum_{i \in S} \left( \sqrt{(x_n - x_i)^2 + (y_n - y_i)^2 + (z_n - z_i)^2} - d_i \right)^2
 $$
+
+##### 3. Wyznaczyć swoje położenie rozwiązując: sformułowane powyżej zadanie optymalizacji za pomocą metody optymalizacji realizującej metodę Levenberga-Marquardta do rozwiązywania zadań regresji nieliniowej z toolbox-u Optimization programu MATLAB (lsqnonlin) lub bibliotek scipy i numpy w Python
+
+Przy rozwiązywaniu zadania posłużyłem się programem MATLAB, a konkretniej toolboxem Optimization. Do obliczenia położenia odbiornika wykorzystano metodę nieliniowej regresji najmniejszych kwadratów, zrealizowaną funkcją lsqnonlin z algorytmem Levenberga-Marquardta.
+
+**a) Konwersja współrzędnych satelitów**
+Współrzędne satelitów podane w układzie sferycznym (kąty theta, phi i wysokość nad Ziemią) zostały przekształcone na układ kartezjański $(x, y, z)$ za pomocą wzorów:
+
+- $$x = x(r,\theta, \phi) = r\ \cos\theta\ \cos\phi$$
+- $$y = y(r,\theta, \phi) = r\ \cos\theta\ \sin\phi$$
+- $$z = z(r,\theta, \phi) = r\ \sin\theta$$
+gdzie:
+
+$r_i = R + h_i$ jest całkowitą odległością od środka Ziemii, a $R = 6378137m$ to promień Ziemii.
+
+W MATLAB-ie implementacja wygląda następująco:
+
+```matlab
+%% Konwersja współrzędnych sferycznych satelitów na kartezjańskie
+clc; clear;
+
+% Stałe
+R = 6378137;           % promień Ziemi [m]
+
+% Współrzędne satelitów w stopniach i wysokość nad Ziemią [m]
+theta_deg = [6.1559355081676, 47.1886635984881, -12.8232765555657, ...
+    54.7951930601781, 34.2437389209835, 53.6353221185862, ...
+    43.0785026706136, 20.1512104981551, 49.2901079265804, ...
+    49.4552880799264, 38.2248532902654, 25.2062832986468, ...
+    43.4788434173197];
+
+phi_deg = [52.5457318089284, 147.8037666254030, -9.4526305456900, ...
+    -127.2512659390310, 25.3517357204992, 64.8608900078692, ...
+    -8.0886091756957, 62.5555486255998, 44.1040081414650, ...
+    -67.4173769536602, -46.1640423241860, 83.7474569414005, ...
+    -7.4150994801044];
+
+h_i = [19513264.0, 14002215.3, 13862417.9, 14061989.2, 13761866.5, ...
+    13893736.4, 13460953.4, 13819354.8, 14015671.6, 13800039.6, ...
+    13357759.5, 13759876.0, 12778112.9];
+
+% Całkowita odległość od środka Ziemi
+r_i = R + h_i;
+
+% Konwersja stopni na radiany
+theta_rad = deg2rad(theta_deg);
+phi_rad   = deg2rad(phi_deg);
+
+% Współrzędne kartezjańskie
+x_i = r_i .* cos(theta_rad) .* cos(phi_rad);
+y_i = r_i .* cos(theta_rad) .* sin(phi_rad);
+z_i = r_i .* sin(theta_rad);
+
+% Wyświetlenie wyników
+fprintf('Współrzędne kartezjańskie satelitów [m]:\n');
+fprintf('i\t x_i\t\t y_i\t\t z_i\n');
+for i = 1:length(x_i)
+    fprintf('%d\t %.2f\t %.2f\t %.2f\n', i, x_i(i), y_i(i), z_i(i));
+end
+```
+
+Dzięki temu otrzymano współrzędne kartezjańskie wszystkich 13 satelitów w metrach.
+
+**b) Wyznaczenie pozycji odbiornika**
+
+Pozycję odbiornika określono poprzez minimalizację błędu pomiędzy odległościami geometrycznymi do satelitów a zmierzonymi pseudodystansami.
+
+$$d_i = v_{syg} * t_i$$
+gdzie:
+
+- $v_{syg}$ = 299 792 458 m/s - prędkość nadejścia sygnału
+- $t_i$ - czas nadejścia sygnału
+
+Funkcja celu dla $lsqnonlin$ jest następująca:
+
+```matlab
+fun = @(Xn) sqrt((Xn(1)-X(:,1)).^2 + (Xn(2)-X(:,2)).^2 + (Xn(3)-X(:,3)).^2) - d;
+```
+
+Optymalizacja została uruchomiona z przyjętym przykładowym punktem startowym:
+
+```matlab
+X0 = [0, 0, 0];
+options = optimoptions('lsqnonlin','Display','iter','Algorithm','levenberg-marquardt');
+[X_sol, resnorm] = lsqnonlin(fun, X0, [], [], options);
+```
+
+Otrzymane wyniki położenia we współrzędnych kartezjańskich prezentują się następująco:
+
+$x$            | $y$            | $z$
+---------------|----------------|---------------
+-376600        | -259200        | -2990000
+
+Po przekształceniu współrzędnych do układu współrzędnych sferycznych uzyskujemy:
+
+szerokość    | długość      |
+-------------|--------------|---------------
+-81.3075     | -145.462     |
+81°18'27"S   | 145°27'43"W  |
