@@ -1,135 +1,215 @@
-% ------------------------
-% FILE: task.m
-% ------------------------
-% Main script adapted to your data. Place this file and the helper
-% functions (below) in the same folder and run `task` in MATLAB.
-
 
 close all
 clear
 clc
 
+% --- Stałe fizyczne ---
+radius = 6378137;           % promień Ziemi (m)
+velocity = 299792458;       % prędkość światła (m/s)
 
-% physical constants
-radius = 6378137; % Earth's radius used as reference [m]
-velocity = 299792458; % speed of light [m/s]
-
-% --- Satellite data (spherical: latitude, longitude, radius) ---
-% Rows: [latitude_deg, longitude_deg, radius_m]
+% --- Pozycje satelitów w układzie sferycznym ---
+% Format: [theta (deg), phi (deg), radius (m)]
 sphericalPositions = [
-	6.1559355081676 52.5457318089284 19513264.0;
-	47.1886635984881 147.8037666254030 14002215.3;
-	-12.8232765555657 -9.4526305456900 13862417.9;
-	54.7951930601781 -127.2512659390310 14061989.2;
-	34.2437389209835 25.3517357204992 13761866.5;
-	53.6353221185862 64.8608900078692 13893736.4;
-	43.0785026706136 -8.0886091756957 13460953.4;
-	20.1512104981551 62.5555486255998 13819354.8;
-	49.2901079265804 44.1040081414650 14015671.6;
-	49.4552880799264 -67.4173769536602 13800039.6;
-	38.2248532902654 -46.1640423241860 13357759.5;
-	25.2062832986468 83.7474569414005 13759876.0;
-	43.4788434173197 -7.4150994801044 12778112.9
+	6.1559355081676     52.5457318089284    25891401.0;
+	47.1886635984881    147.8037666254030   20380352.3;
+	-12.8232765555657   -9.4526305456900    20240554.9;
+	54.7951930601781    -127.2512659390310  20440126.2;
+	34.2437389209835    25.3517357204992    20140003.5;
+	53.6353221185862    64.8608900078692    20271873.4;
+	43.0785026706136    -8.0886091756957    19839090.4;
+	20.1512104981551    62.5555486255998    20197491.8;
+	49.2901079265804    44.1040081414650    20393808.6;
+	49.4552880799264    -67.4173769536602   20178176.6;
+	38.2248532902654    -46.1640423241860   19735896.5;
+	25.2062832986468    83.7474569414005    20138013.0;
+	43.4788434173197    -7.4150994801044    19156249.9
 	];
 
-
-% --- Measured signal times (s) ---
+% --- Zmierzone czasy sygnałów od satelitów (sekundy) ---
 times = [
-	0.0964296451174393;
-	0.0851166508673616;
-	0.0838966779463572;
-	0.0848758596318232;
-	0.0687129525479790;
-	0.0707244116606699;
-	0.0682187155252768;
-	0.0754600110420752;
-	0.0692017691788084;
-	0.0776484210074374;
-	0.0745379551314562;
-	0.0781284472368656;
-	0.0658486908581309
+	0.09642964511743930;
+	0.08511665086736160;
+	0.08389667794635720;
+	0.08487585963182320;
+	0.06871295254797900;
+	0.07072441166066990;
+	0.06821871552527680;
+	0.07546001104207520;
+	0.06920176917880840;
+	0.07764842100743740;
+	0.07453795513145620;
+	0.07812844723686560;
+	0.06584869085813090
 	];
 
-distances = times .* velocity; % convert to metres
+% --- Zamiana czasu na pseudoodległość ---
+distances = times * velocity;
 
-
-% convert satellite positions to Cartesian coordinates
+% --- Konwersja satelitów do układu kartezjańskiego ---
 positions = sphericalToCartesian(sphericalPositions);
 
-
-% default solver options
+% --- Opcje solvera ---
 options = optimoptions( ...
 	"lsqnonlin", ...
 	"Algorithm", "levenberg-marquardt", ...
 	"SpecifyObjectiveGradient", true, ...
-	"Display", "iter" ... % set to 'off' to suppress output
+	"Display", "off" ...
 	);
 
-% --- Solve from a sensible starting position (near Earth surface) ---
-startingPosition = [0, 0, radius]; % initial guess (x,y,z)
-[coordinates, squaredResidualNorm] = calculateCoordinates(positions, distances, startingPosition, options);
+% --- Wektor startowy: x, y, z, bias_zegara ---
+startingState = [radius; radius; radius; 0];
+
+% --- Wywołanie solvera ---
+[solution, squaredResidualNorm] = calculateCoordinates( ...
+	positions, distances, startingState, options);
+
+% --- Rozpakowanie wyniku ---
+x = solution(1);
+y = solution(2);
+z = solution(3);
+bias = solution(4);
+
+% --- Wyświetlenie wyników ---
+fprintf("Result (ECEF): x = %.3f, y = %.3f, z = %.3f\n", x, y, z);
+fprintf("Clock bias (s): %.10e\n", bias);
+fprintf("Clock bias (m): %.3f\n", bias * velocity);
+
+% --- Przeliczenie pozycji na współrzędne sferyczne ---
+sphericalCoordinates = cartesianToSpherical([x, y, z]);
+
+fprintf("Result (spherical): theta = %.6f deg, phi = %.6f deg, radius = %.3f m\n", ...
+	sphericalCoordinates(1), sphericalCoordinates(2), sphericalCoordinates(3));
+
+fprintf("Height above Earth (m): %.3f\n", sphericalCoordinates(3) - radius);
+
+fprintf("Squared residual norm: %.6f\n", squaredResidualNorm);
 
 
-fprintf("Main result (Cartesian): x = %f, y = %f, z = %f\n", coordinates(1), coordinates(2), coordinates(3));
-sphericalCoordinates = cartesianToSpherical(coordinates);
-fprintf("Main result (spherical): lat = %f deg, lon = %f deg, radius = %f m, height = %f m\n", ...
-	sphericalCoordinates(1), sphericalCoordinates(2), sphericalCoordinates(3), sphericalCoordinates(3) - radius);
-fprintf("Squared residual norm: %e\n", squaredResidualNorm);
+% --- Princik w formacie od razu z linkiem do google mapsa ---
+% Wyciągnięcie wynikowych współrzędnych
+lat = sphericalCoordinates(1);  % phi = latitude
+lon = sphericalCoordinates(2);  % theta = longitude
 
+% Ustalenie hemisfer
+if lat >= 0
+	latHem = 'N';
+else
+	latHem = 'S';
+end
 
-%% --- Experiments: starting positions, function tolerance, data disturbance ---
-% You can reuse the loops from your colleague's script. Examples below.
+if lon >= 0
+	lonHem = 'E';
+else
+	lonHem = 'W';
+end
 
+latAbs = abs(lat);
+lonAbs = abs(lon);
 
-% (A) Starting positions
+disp(' ');
+disp('--- Ostateczna wyliczona pozycja odbiornika ---');
+fprintf('Latitude:  %.8f° %s\n', latAbs, latHem);
+fprintf('Longitude: %.8f° %s\n', lonAbs, lonHem);
+
+% Gotowy link do Google Maps
+fprintf('\nGoogle Maps link:\nhttps://www.google.com/maps/place/%.8f°%s+%.8f°%s\n', ...
+	latAbs, latHem, lonAbs, lonHem);
+
+%% ============================================================
+%   Eksperymenty:
+%   Sprawdzamy wpływ zmiany:
+%     - A - punktu startowego
+%     - B - tolerancji funkcji stopu
+%     - C - zakłóceń w danych (np. pozycjach satelitów)
+%     - D - zakłóceń w zmierzonych czasach
+%% ============================================================
+
+fprintf('\n=====================\nEksperymenty\n=====================\n');
+
+%% --- (A) Zmiany punktu startowego ---
+fprintf('\n--- (A) Wpływ zmiany punktu startowego ---\n');
+
 startingPositions = [
-	0 0 0;
-	radius radius radius;
-	[1 1 1]*1e6;
-	[1 1 1]*1e7;
-	[1 1 1]*5e7
+	0            0            0            0;
+	radius       radius       radius       0;
+	1e6          1e6          1e6          0;
+	1e7          1e7          1e7          0;
+	5e7          5e7          5e7          0;
 	];
 
-fprintf('\n--- Starting position experiments ---\n');
 for i = 1:size(startingPositions,1)
 	sp = startingPositions(i,:);
-	[coords, rnorm] = calculateCoordinates(positions, distances, sp, options);
-	s = cartesianToSpherical(coords);
-	fprintf('\nStart [%g %g %g] => lat=%f lon=%f height=%f rnorm=%e\n', sp(1), sp(2), sp(3), s(1), s(2), s(3)-radius, rnorm);
+	[sol, rnorm] = calculateCoordinates(positions, distances, sp, options);
+
+	x = sol(1); y = sol(2); z = sol(3);
+	s = cartesianToSpherical([x y z]);
+
+	fprintf("Start [%g %g %g %g] => lat=%.6f lon=%.6f height=%.3f rnorm=%e\n", ...
+		sp(1), sp(2), sp(3), sp(4), ...
+		s(1), s(2), s(3) - radius, rnorm);
 end
 
-% (B) Function tolerances
-fprintf('\n--- Function tolerance experiments ---\n');
-funcTol = [1e-12 1e-10 1e-8 1e-6 1e-4 1e-2 1e-1 1 1e1];
+
+%% --- (B) Wpływ tolerancji funkcji stopu ---
+fprintf('\n--- (B) Wpływ tolerancji funkcji stopu ---\n');
+
+funcTol = [1e-14 1e-12 1e-10 1e-8 1e-6 1e-4 1e-2 1 1e1];
+
 for t = funcTol
 	optsT = optimoptions(options, 'FunctionTolerance', t, 'Display','off');
-	[coords, rnorm] = calculateCoordinates(positions, distances, startingPosition, optsT);
-	s = cartesianToSpherical(coords);
-	fprintf('Tol=%g => lat=%f lon=%f height=%f rnorm=%e\n', t, s(1), s(2), s(3)-radius, rnorm);
+
+	[sol, rnorm] = calculateCoordinates(positions, distances, startingState, optsT);
+
+	x = sol(1); y = sol(2); z = sol(3);
+	s = cartesianToSpherical([x y z]);
+
+	fprintf("Tol=%g => lat=%.6f lon=%.6f height=%.3f rnorm=%e\n", ...
+		t, s(1), s(2), s(3)-radius, rnorm);
 end
 
-% (C) Disturbance in satellite positions
-fprintf('\n--- Satellite data disturbance experiments ---\n');
-disturbs = [1e-6 1e-4 1e-2 1e-1 1 1e1];
+
+%% --- (C) Wpływ zakłóceń w danych (np. pozycjach satelitów) ---
+fprintf('\n--- (C) Wpływ zakłóceń w danych (np. pozycjach satelitów) ---\n');
+
+disturbs = [1e-6 1e-4 1e-2 1e-1 1 10 100];
+
 for d = disturbs
-	rng(0); % reproducible
-	pert = -d + (2*d).*rand(size(positions));
+	rng(0);
+	pert = -d + (2*d) * rand(size(positions));
 	posd = positions + pert;
-	[coords, rnorm] = calculateCoordinates(posd, distances, startingPosition, options);
-	s = cartesianToSpherical(coords);
-	fprintf('Perturb=%g => lat=%f lon=%f height=%f rnorm=%e\n', d, s(1), s(2), s(3)-radius, rnorm);
+
+	[sol, rnorm] = calculateCoordinates(posd, distances, startingState, options);
+
+	x = sol(1); y = sol(2); z = sol(3);
+	s = cartesianToSpherical([x y z]);
+
+	fprintf("Perturb=%g => lat=%.6f lon=%.6f height=%.3f rnorm=%e\n", ...
+		d, s(1), s(2), s(3)-radius, rnorm);
 end
 
-% (D) Disturbance in times
-fprintf('\n--- Time measurement disturbance experiments ---\n');
+
+%% --- (D) Wpływ zakłóceń w danych (np. zmierzonych czasach)  ---
+fprintf('\n--- (D) Wpływ zakłóceń w danych (np. zmierzonych czasach) ---\n');
+
 timeDisturbs = [1e-12 1e-10 1e-8 1e-6 1e-4 1e-2];
+
 for dt = timeDisturbs
 	rng(0);
-	td = -dt + (2*dt).*rand(size(times));
-	[coords, rnorm] = calculateCoordinates(positions, (times+td).*velocity, startingPosition, options);
-	s = cartesianToSpherical(coords);
-	fprintf('TimePert=%g => lat=%f lon=%f height=%f rnorm=%e\n', dt, s(1), s(2), s(3)-radius, rnorm);
+	td = -dt + (2*dt) * rand(size(times));
+
+	disturbedDistances = (times + td) * velocity;
+
+	[sol, rnorm] = calculateCoordinates(positions, disturbedDistances, startingState, options);
+
+	x = sol(1); y = sol(2); z = sol(3);
+	s = cartesianToSpherical([x y z]);
+
+	fprintf("TimePert=%g => lat=%.6f lon=%.6f height=%.3f rnorm=%e\n", ...
+		dt, s(1), s(2), s(3)-radius, rnorm);
 end
 
-% Save final result to file
-save('result.mat', 'coordinates', 'sphericalCoordinates', 'squaredResidualNorm');
+
+%% --- Save everything ---
+save('result.mat', 'solution', 'sphericalCoordinates', 'squaredResidualNorm');
+
+fprintf("\nEksperymenty zakończone pomyślnie, wszystkie wyniki zapisane do result.mat\n");

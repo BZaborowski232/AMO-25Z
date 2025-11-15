@@ -1,18 +1,30 @@
-% ------------------------
-% FILE: distanceError.m
-% ------------------------
-function [error, jacobian] = distanceError(currentPosition, positions, expectedDistances)
-calculateDistances = sqrt( ...
-	(currentPosition(1) - positions(:, 1)) .^ 2 ...
-	+ (currentPosition(2) - positions(:, 2)) .^ 2 ...
-	+ (currentPosition(3) - positions(:, 3)) .^ 2 ...
-	);
-error = calculateDistances - expectedDistances;
+function [error, jacobian] = distanceError(currentState, positions, expectedDistances)
+% currentState = [x; y; z; clockBias]
+x = currentState(1);
+y = currentState(2);
+z = currentState(3);
+b = currentState(4); % bias zegara w sekundach
 
+c = 299792458; % prędkość światła
 
-[m, ~] = size(positions);
-jacobian = zeros(m, 3);
-jacobian(:, 1) = (currentPosition(1) - positions(:, 1)) ./ calculateDistances;
-jacobian(:, 2) = (currentPosition(2) - positions(:, 2)) ./ calculateDistances;
-jacobian(:, 3) = (currentPosition(3) - positions(:, 3)) ./ calculateDistances;
+% Liczba satelitów
+m = size(positions, 1);
+
+% Odległość geometryczna
+geometricDistance = sqrt((x - positions(:, 1)).^2 + (y - positions(:, 2)).^2 + (z - positions(:, 3)).^2 );
+
+% Pseudoodległość modelowana
+modeledDistance = geometricDistance + c * b;
+
+% Błąd
+error = modeledDistance - expectedDistances;
+
+% Jacobian
+if nargout > 1
+	jacobian = zeros(m, 4);
+	jacobian(:, 1) = (x - positions(:, 1)) ./ geometricDistance;
+	jacobian(:, 2) = (y - positions(:, 2)) ./ geometricDistance;
+	jacobian(:, 3) = (z - positions(:, 3)) ./ geometricDistance;
+	jacobian(:, 4) = c * ones(m, 1); % pochodna po biasie
+end
 end
