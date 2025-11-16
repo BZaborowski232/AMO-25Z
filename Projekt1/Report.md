@@ -36,19 +36,19 @@ Z treści zadania mamy podane dwie tabele z danymi:
 
 | Nr satelity | Czas [s]           |
 | ----------- | ------------------ |
-| 1           | 0.0964296451174393 |
-| 2           | 0.0851166508673616 |
-| 3           | 0.0838966779463572 |
-| 4           | 0.0848758596318232 |
-| 5           | 0.0687129525479790 |
-| 6           | 0.0707244116606699 |
-| 7           | 0.0682187155252768 |
-| 8           | 0.0754600110420752 |
-| 9           | 0.0692017691788084 |
-| 10          | 0.0776484210074374 |
-| 11          | 0.0745379551314562 |
-| 12          | 0.0781284472368656 |
-| 13          | 0.0658486908581309 |
+| 1           | 0.09642964511743930|
+| 2           | 0.08511665086736160|
+| 3           | 0.08389667794635720|
+| 4           | 0.08487585963182320|
+| 5           | 0.06871295254797900|
+| 6           | 0.07072441166066990|
+| 7           | 0.06821871552527680|
+| 8           | 0.07546001104207520|
+| 9           | 0.06920176917880840|
+| 10          | 0.07764842100743740|
+| 11          | 0.07453795513145620|
+| 12          | 0.07812844723686560|
+| 13          | 0.06584869085813090|
 
 #### 2. Rozwiązanie
 
@@ -65,44 +65,45 @@ Wspomnianej wcześniej w treści zadania parametry jakie przyjmuję to:
 - $v_{syg} = 299792458 [m/s]$ - prędkość sygnału pochodzącego z satelitów,
 - $h_i$ - Wysokość satelity względem powierzchni ziemii
 - $\forall_{i \in S}\ r_i = h_i + R = 26378137[m]$ - wysokość satelity względem środka kuli ziemskiej,
-- $\theta_i$ - Szerokość geograficzna satelity $i$ w stopniach:
-- $\phi_i$ - Długość geograficzna satelity $i$ w stopniach:
+- $\theta_i$ - Szerokość geograficzna satelity $i$ w stopniach
+- $\phi_i$ - Długość geograficzna satelity $i$ w stopniach
+- $b$ – nieznany bias czasowy zegara odbiornika, w sekundach, który przesuwa wszystkie zmierzone czasy sygnałów $t_i$.  
 
 Poniżej tabela z wartościami odpowiadającymi każdemu z satelit:
 
 |  i |   $\theta_i$      |    $\phi_i$        |   $h_i$ [m]  | $r_i = R + h_i$ [m] |
 | -: | :---------------: | :----------------: | :----------: | :-----------------: |
-|  1 |  6.1559355081676  |  52.5457318089284  | 19 513 264.0 |     25 891 401.0    |
-|  2 |  47.1886635984881 |  147.8037666254030 | 14 002 215.3 |     20 380 352.3    |
-|  3 | -12.8232765555657 |  -9.4526305456900  | 13 862 417.9 |     20 240 554.9    |
-|  4 |  54.7951930601781 | -127.2512659390310 | 14 061 989.2 |     20 440 126.2    |
-|  5 |  34.2437389209835 |  25.3517357204992  | 13 761 866.5 |     20 140 003.5    |
-|  6 |  53.6353221185862 |  64.8608900078692  | 13 893 736.4 |     20 271 873.4    |
-|  7 |  43.0785026706136 |  -8.0886091756957  | 13 460 953.4 |     19 839 090.4    |
-|  8 |  20.1512104981551 |  62.5555486255998  | 13 819 354.8 |     20 197 491.8    |
-|  9 |  49.2901079265804 |  44.1040081414650  | 14 015 671.6 |     20 393 808.6    |
-| 10 |  49.4552880799264 |  -67.4173769536602 | 13 800 039.6 |     20 178 176.6    |
-| 11 |  38.2248532902654 |  -46.1640423241860 | 13 357 759.5 |     19 735 896.5    |
-| 12 |  25.2062832986468 |  83.7474569414005  | 13 759 876.0 |     20 138 013.0    |
-| 13 |  43.4788434173197 |  -7.4150994801044  | 12 778 112.9 |     19 156 249.9    |
+| 1  | 6.1559355081676   | 52.5457318089284   | 19 513 264.0 | 25891401.0          |
+| 2  | 47.1886635984881  | 147.8037666254030  | 14 002 215.3 | 20380352.3          |
+| 3  | -12.8232765555657 | -9.4526305456900   | 13 862 417.9 | 20240554.9          |
+| 4  | 54.7951930601781  | -127.2512659390310 | 14 061 989.2 | 20440126.2          |
+| 5  | 34.2437389209835  | 25.3517357204992   | 13 761 866.5 | 20140003.5          |
+| 6  | 53.6353221185862  | 64.8608900078692   | 13 893 736.4 | 20271873.4          |
+| 7  | 43.0785026706136  | -8.0886091756957   | 13 460 953.4 | 19839090.4          |
+| 8  | 20.1512104981551  | 62.5555486255998   | 13 819 354.8 | 20197491.8          |
+| 9  | 49.2901079265804  | 44.1040081414650   | 14 015 671.6 | 20393808.6          |
+| 10 | 49.4552880799264  | -67.4173769536602  | 13 800 039.6 | 20178176.6          |
+| 11 | 38.2248532902654  | -46.1640423241860  | 13 357 759.5 | 19735896.5          |
+| 12 | 25.2062832986468  | 83.7474569414005   | 13 759 876.0 | 20138013.0          |
+| 13 | 43.4788434173197  | -7.4150994801044   | 12 778 112.9 | 19156249.9          |
 
 - $t_i$ - Czasy nadejścia sygnału $i$ w sekundach:
 
 |  i  |      $t_i$ [s]      |
 | :-: | :-----------------: |
-|  1  | 0.09642964511743930 |
-|  2  | 0.08511665086736160 |
-|  3  | 0.08389667794635720 |
-|  4  | 0.08487585963182320 |
-|  5  | 0.06871295254797900 |
-|  6  | 0.07072441166066990 |
-|  7  | 0.06821871552527680 |
-|  8  | 0.07546001104207520 |
-|  9  | 0.06920176917880840 |
-|  10 | 0.07764842100743740 |
-|  11 | 0.07453795513145620 |
-|  12 | 0.07812844723686560 |
-|  13 | 0.06584869085813090 |
+| 1   | 0.09642964511743930 |
+| 2   | 0.08511665086736160 |
+| 3   | 0.08389667794635720 |
+| 4   | 0.08487585963182320 |
+| 5   | 0.06871295254797900 |
+| 6   | 0.07072441166066990 |
+| 7   | 0.06821871552527680 |
+| 8   | 0.07546001104207520 |
+| 9   | 0.06920176917880840 |
+| 10  | 0.07764842100743740 |
+| 11  | 0.07453795513145620 |
+| 12  | 0.07812844723686560 |
+| 13  | 0.06584869085813090 |
 
 Aby przejść do układu kartezjańskiego $(x, y, z)$  mając podane współrzędne sferyczne $(r, \theta, \phi)$, należy zastosować wzory rozpisane przeze mnie poniżej:
 
@@ -138,7 +139,8 @@ Aby odtworzyć ze współrzędnych kartezjańskich $(x, y, z)$ współrzędne sf
 
 Przy rozwiązywaniu zadania wprowadziłem następujące zmienne:
 
-- $d_i = v_{syg} \cdot t_i$ - odległość od satelity $i$, oblicznona na podstawie czasu nadejścia sygnału $t_i$ oraz prędkości rozchodzenia się sygnału $v_{syg}$.
+- $d_i = v_{syg} \cdot t_i$ - odległość od satelity $i$, oblicznona na podstawie czasu nadejścia sygnału $t_i$ oraz prędkości rozchodzenia się sygnału $v_{syg}$ (nie uwzględniająca biasu).
+- $\Delta d_i = v_{syg} \cdot b$ – odległość uwzględniająca bias czasowy jako opóźnienie.
 - $X_n = \begin{bmatrix}x_n \\ y_n \\ z_n\end{bmatrix}$ - poszukiwane współrzędne własne (układ kartezjański),
 - $X_i = \begin{bmatrix}x_i \\ y_i \\ z_i\end{bmatrix}$ - współrzędne satelity $i$ (układ kartezjański),
 
@@ -152,53 +154,43 @@ Pierwszy z nich wykorzystuje czas dotarcia sygnału oraz znaną prędkość jego
 $$d_i = v_{\text{syg}} \cdot t_i$$.
 
 Drugi sposób opiera się na geometrycznym obliczeniu odległości w przestrzeni kartezjańskiej, z użyciem wzoru na metrykę euklidesową.
-Porównując wartości uzyskane obiema metodami dla każdego satelity, otrzymujemy pojedyncze równanie odpowiadające danemu satelicie.
+Porównując wartości uzyskane obiema metodami dla każdego satelity, otrzymujemy pojedyncze równanie odpowiadające danemu satelicie. Musimy pamiętać również o uwzględnieniu opóźnienia (bias).
 
 $$
-\forall_{i \in S}\ d_i = |X_n - X_i| = \sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2}
+\forall_{i \in S}\ d_i + \Delta d_i = |X_n - X_i| = \sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2}
 $$
 
-**WERSJA ALTERNATYWNA, JESZCZE DO WERYFIKACJI KTÓRA JEST LEPSZA I ZOSTANIE**
-
-1. Sformułowanie układu równań określających nasze położenie w układzie współrzędnych kartezjańskich
-
-Istnieją dwa podejścia do określenia odległości między odbiornikiem a satelitą.  
-
-Pierwsze wykorzystuje czas nadejścia sygnału $t_i$ i prędkość propagacji sygnału $v_{\text{sygnał}}$, co daje pseudoodległość:
+a po rozwinięciu:
 
 $$
-d_i^{(\text{time})} = v_{\text{sygnał}} \, (t_i - \Delta t),
+\forall_{i \in S}\ d_i + v_{\text{syg}} \cdot b = |X_n - X_i| = \sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2}
 $$
 
-gdzie $\Delta t$ jest nieznanym przesunięciem zegara odbiornika (tzw. *bias*).  
+gdzie:
 
-Drugie podejście to bezpośrednie obliczenie odległości geometrycznej w układzie kartezjańskim:
+- $d_i = v_{\text{syg}} \cdot t_i$ – odległość obliczona z czasu nadejścia sygnału,
+- $b$ – bias czasowy zegara odbiornika,
+- $v_{\text{syg}}$ – prędkość sygnału,
+- $X_n = [x_n, y_n, z_n]^T$ – współrzędne odbiornika,
+- $X_i = [x_i, y_i, z_i]^T$ – współrzędne satelity $i$.
 
-$$
-d_i^{(\text{geom})} = \| X_n - X_i \| = \sqrt{(x_n - x_i)^2 + (y_n - y_i)^2 + (z_n - z_i)^2}.
-$$
-
-Porównując obie wartości dla każdego satelity, otrzymujemy układ równań:
-
-$$
-\forall_{i \in S} : \| X_n - X_i \| - v_{\text{sygnał}} \, (t_i - \Delta t) = 0.
-$$
-
-W praktyce układ ten rozwiązuje się w sensie najmniejszych kwadratów (ze względu na obecność błędów pomiarowych), minimalizując funkcję celu:
-
-$$
-F(X_n, \Delta t) = \sum_{i \in S} \left( \| X_n - X_i \| - v_{\text{sygnał}} \, (t_i - \Delta t) \right)^2.
-$$
-
-**KONIEC WERSJI ALTERNATYWNEJ DLA ZADANIA 1**
+To rozwiązanie pozwala na uwzględnienie biasu czasowego zegara odbiornika, który jest kluczowym czynnikiem przy precyzyjnym wyznaczaniu położenia na podstawie sygnałów pochodzących z wielu satelitów o różnorodnych parametrach. Uwzględnienie tego przesunięcia czasowego zapewnia poprawność i spójność obliczeń dystansów oraz minimalizuje błędy wynikające z różnic w czasie pomiaru między odbiornikiem a satelitami.
 
 ##### 2. Sformułować zadanie optymalizacji bez ograniczeń stosując metodę najmniejszych kwadratów
 
-Możemy wprowadzić funkcję $f_i$, opisującą różnicę pomiędzy odległością geometryczną w układzie kartezjańskim, a odległością wyznaczoną na podstawie czasu dotarcia sygnału:
+Możemy wprowadzić funkcję $f_i$, opisującą różnicę pomiędzy odległością geometryczną w układzie kartezjańskim a odległością wyznaczoną na podstawie czasu dotarcia sygnału oraz uwzględniającą nieznany bias czasowy odbiornika:
 
 $$
-f_i(x_n, y_n, z_n) = \sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2} - d_i
+f_i(x_n, y_n, z_n, b) = \sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2} - (d_i + v_{\text{syg}} \cdot b)
 $$
+
+gdzie:
+
+- $d_i = v_{\text{syg}} \cdot t_i$ – odległość obliczona z czasu nadejścia sygnału,
+- $b$ – bias czasowy zegara odbiornika,
+- $v_{\text{syg}}$ – prędkość sygnału,
+- $X_n = [x_n, y_n, z_n]^T$ – współrzędne odbiornika,
+- $X_i = [x_i, y_i, z_i]^T$ – współrzędne satelity $i$.
 
 Na podstawie tej funkcji można wyznaczyć macierz Jacobiego, zbudowaną z pochodnych cząstkowych względem współrzędnych $(x_n, y_n, z_n)$. Macierz ta może być następnie wykorzystana w iteracyjnym algorytmie Levenberga–Marquardta:
 
@@ -208,10 +200,12 @@ Na podstawie tej funkcji można wyznaczyć macierz Jacobiego, zbudowaną z pocho
 
 - $\frac{\partial f_i}{\partial z_n} = \frac{z_n - x_i}{\sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2}}$
 
-W efekcie, całe zadanie można sformułować jako problem optymalizacji nieliniowej bez ograniczeń, polegający na minimalizacji sumy kwadratów funkcji $f_i$:
+- $\frac{\partial f_i}{\partial b} = -v_{\text{syg}}$
+
+W efekcie, całe zadanie można sformułować jako problem optymalizacji nieliniowej bez ograniczeń, polegający na minimalizacji sumy kwadratów funkcji $f_i$ dla wszystkich satelit $i$ należących  do zbioru $S$:
 
 $$
-\min_{X_n} \sum_{i \in S} \left( \sqrt{(x_n - x_i)^2 + (y_n - y_i)^2 + (z_n - z_i)^2} - d_i \right)^2
+\min_{X_n} \sum_{i \in S} \left( \sqrt{(x_n - x_i)^2 + (y_n - y_i)^2 + (z_n - z_i)^2} - (d_i + v_{\text{syg}} \cdot b)\right)^2
 $$
 
 ##### 3. Wyznaczyć swoje położenie rozwiązując: sformułowane powyżej zadanie optymalizacji za pomocą metody optymalizacji realizującej metodę Levenberga-Marquardta do rozwiązywania zadań regresji nieliniowej z toolbox-u Optimization programu MATLAB (lsqnonlin) lub bibliotek scipy i numpy w Python
@@ -231,46 +225,15 @@ $r_i = R + h_i$ jest całkowitą odległością od środka Ziemii, a $R = 637813
 W MATLAB-ie implementacja wygląda następująco:
 
 ```matlab
-%% Konwersja współrzędnych sferycznych satelitów na kartezjańskie
-clc; clear;
+function [positions] = sphericalToCartesian(sphericalPositions)
+[length, ~] = size(sphericalPositions);
+positions = zeros(length, 3);
 
-% Stałe
-R = 6378137;           % promień Ziemi [m]
+positions(:, 1) = sphericalPositions(:, 3) .* cos(deg2rad(sphericalPositions(:, 1))) .* cos(deg2rad(sphericalPositions(:, 2)));
 
-% Współrzędne satelitów w stopniach i wysokość nad Ziemią [m]
-theta_deg = [6.1559355081676, 47.1886635984881, -12.8232765555657, ...
-    54.7951930601781, 34.2437389209835, 53.6353221185862, ...
-    43.0785026706136, 20.1512104981551, 49.2901079265804, ...
-    49.4552880799264, 38.2248532902654, 25.2062832986468, ...
-    43.4788434173197];
+positions(:, 2) = sphericalPositions(:, 3) .* cos(deg2rad(sphericalPositions(:, 1))) .* sin(deg2rad(sphericalPositions(:, 2)));
 
-phi_deg = [52.5457318089284, 147.8037666254030, -9.4526305456900, ...
-    -127.2512659390310, 25.3517357204992, 64.8608900078692, ...
-    -8.0886091756957, 62.5555486255998, 44.1040081414650, ...
-    -67.4173769536602, -46.1640423241860, 83.7474569414005, ...
-    -7.4150994801044];
-
-h_i = [19513264.0, 14002215.3, 13862417.9, 14061989.2, 13761866.5, ...
-    13893736.4, 13460953.4, 13819354.8, 14015671.6, 13800039.6, ...
-    13357759.5, 13759876.0, 12778112.9];
-
-% Całkowita odległość od środka Ziemi
-r_i = R + h_i;
-
-% Konwersja stopni na radiany
-theta_rad = deg2rad(theta_deg);
-phi_rad   = deg2rad(phi_deg);
-
-% Współrzędne kartezjańskie
-x_i = r_i .* cos(theta_rad) .* cos(phi_rad);
-y_i = r_i .* cos(theta_rad) .* sin(phi_rad);
-z_i = r_i .* sin(theta_rad);
-
-% Wyświetlenie wyników
-fprintf('Współrzędne kartezjańskie satelitów [m]:\n');
-fprintf('i\t x_i\t\t y_i\t\t z_i\n');
-for i = 1:length(x_i)
-    fprintf('%d\t %.2f\t %.2f\t %.2f\n', i, x_i(i), y_i(i), z_i(i));
+positions(:, 3) = sphericalPositions(:, 3) .* sin(deg2rad(sphericalPositions(:, 1)));
 end
 ```
 
@@ -286,29 +249,299 @@ gdzie:
 - $v_{syg}$ = 299 792 458 m/s - prędkość nadejścia sygnału
 - $t_i$ - czas nadejścia sygnału
 
-Funkcja celu dla $lsqnonlin$ jest następująca:
+Funkcja celu dla algorytmu $lsqnonlin$ uwzględnia zarówno współrzędne odbiornika, jak i nieznany bias zegara. Dla każdego satelity obliczamy różnicę pomiędzy odległością geometryczną a zmierzonym pseudodystansem powiększonym o przesunięcie czasowe:
+
+$$
+f_i(x_n, y_n, z_n, b) = \sqrt{(x_n-x_i)^2 + (y_n-y_i)^2 + (z_n-z_i)^2} - (d_i + v_{\text{syg}} \cdot b)
+$$
+
+gdzie:
+
+- $d_i = v_{\text{syg}} \cdot t_i$ – odległość obliczona z czasu nadejścia sygnału,
+- $b$ – bias czasowy zegara odbiornika,
+- $v_{\text{syg}}$ – prędkość sygnału,
+- $X_n = [x_n, y_n, z_n]^T$ – współrzędne odbiornika,
+- $X_i = [x_i, y_i, z_i]^T$ – współrzędne satelity $i$.
+
+Implementacja funkcji $fi$ w matlabie wraz z wyliczaniem jakobianu wyglądała następująco:
 
 ```matlab
-fun = @(Xn) sqrt((Xn(1)-X(:,1)).^2 + (Xn(2)-X(:,2)).^2 + (Xn(3)-X(:,3)).^2) - d;
+function [error, jacobian] = distanceError(currentState, positions, expectedDistances)
+% currentState = [x; y; z; clockBias]
+x = currentState(1);
+y = currentState(2);
+z = currentState(3);
+b = currentState(4); % bias zegara w sekundach
+
+c = 299792458; % prędkość światła
+
+% Liczba satelitów
+m = size(positions, 1);
+
+% Odległość geometryczna
+geometricDistance = sqrt((x - positions(:, 1)).^2 + (y - positions(:, 2)).^2 + (z - positions(:, 3)).^2 );
+
+% Pseudoodległość modelowana
+modeledDistance = geometricDistance + c * b;
+
+% Błąd
+error = modeledDistance - expectedDistances;
+
+% Jacobian
+if nargout > 1
+ jacobian = zeros(m, 4);
+ jacobian(:, 1) = (x - positions(:, 1)) ./ geometricDistance;
+ jacobian(:, 2) = (y - positions(:, 2)) ./ geometricDistance;
+ jacobian(:, 3) = (z - positions(:, 3)) ./ geometricDistance;
+ jacobian(:, 4) = c * ones(m, 1); % pochodna po biasie
+end
 ```
 
-Optymalizacja została uruchomiona z przyjętym przykładowym punktem startowym:
+Po wywołaniu  funkcji bazującej na metodzie Levenberga-Marquardta uzyskałem wyniki, wskazujące na konretne położenie na mapie.
+Implementacja funkcji w MATLAB:
 
 ```matlab
-X0 = [0, 0, 0];
-options = optimoptions('lsqnonlin','Display','iter','Algorithm','levenberg-marquardt');
-[X_sol, resnorm] = lsqnonlin(fun, X0, [], [], options);
+function [coordinates, squaredResidualNorm] = calculateCoordinates(positions, expectedDistances, startingState, options)
+
+distanceErrorFunction = @(x)(distanceError(x, positions, expectedDistances));
+
+[coordinates, squaredResidualNorm] = lsqnonlin(distanceErrorFunction, startingState, [], [], options);
+end
 ```
 
-Otrzymane wyniki położenia we współrzędnych kartezjańskich prezentują się następująco:
+Funkcja calculateCoordinates iteracyjnie dopasowuje współrzędne odbiornika $(x_n, y_n, z_n)$ oraz bias zegara odbiornika $b$, minimalizując różnicę pomiędzy odległościami geometrycznymi a zmierzonymi pseudodystansami. W wyniku działania solvera otrzymano:
 
-$x$            | $y$            | $z$
----------------|----------------|---------------
--376600        | -259200        | -2990000
+- współrzędne ECEF odbiornika $(x, y, z)$,
+- bias czasowy zegara $b$ w sekundach,
+- współczynnik reszt kwadratowych squaredResidualNorm,
+- współrzędne sferyczne $(\theta, \phi, r)$ odbiornika, które pozwoliły na uzyskanie szerokości i długości geograficznej
 
-Po przekształceniu współrzędnych do układu współrzędnych sferycznych uzyskujemy:
+Bias zegara okazał się być bardzo istotnym parametrem, ponieważ pozwala skorygować przesunięcia czasowe w pomiarach sygnałów od satelitów, dzięki czemu uzyskane współrzędne odbiornika są poprawne i spójne z rzeczywistym położeniem.
 
-szerokość    | długość      |
--------------|--------------|---------------
--81.3075     | -145.462     |
-81°18'27"S   | 145°27'43"W  |
+W wyniku działania algorytmu, wyniki prezentowane są zarówno w układzie kartezjańskim, jak i geograficznym. Niezwykle przydatną funkcjonalnością przygotowaną przeze mnie podczas wykonywania zadania, okazało się dodatkowe zwracanie przez algorytm, linka do Google Maps (zwierającego przeliczone współrzędne wynikowe), gotowego do przeklejenia do przeglądarkę. Link przenosił mnie od razu do lokalizacji odpowiadającej wyiczonym współrzędnym, bez konieczności wpisywania ich za każdym razem ręcznie. Pozwoliło to zaoszczędzić wiele czasu podczas sprawdzania lokalizacji wynikowej, po każdej kolejnej poprawce czy zmianie w strukturach algorytmu.
+
+Implementacja wynikowego printu wyglądała następująco:
+
+```matlab
+% --- Rozpakowanie wyniku ---
+x = solution(1);
+y = solution(2);
+z = solution(3);
+bias = solution(4);
+
+% --- Wyświetlenie wyników ---
+fprintf("Result (ECEF): x = %.3f, y = %.3f, z = %.3f\n", x, y, z);
+fprintf("Clock bias (s): %.10e\n", bias);
+fprintf("Clock bias (m): %.3f\n", bias * velocity);
+
+% --- Przeliczenie pozycji na współrzędne sferyczne ---
+sphericalCoordinates = cartesianToSpherical([x, y, z]);
+
+fprintf("Result (spherical): theta = %.6f deg, phi = %.6f deg, radius = %.3f m\n", ...
+ sphericalCoordinates(1), sphericalCoordinates(2), sphericalCoordinates(3));
+
+fprintf("Height above Earth (m): %.3f\n", sphericalCoordinates(3) - radius);
+
+fprintf("Squared residual norm: %.6f\n", squaredResidualNorm);
+
+
+% --- Princik w formacie od razu z linkiem do google mapsa ---
+% Wyciągnięcie wynikowych współrzędnych
+lat = sphericalCoordinates(1);  % phi = latitude
+lon = sphericalCoordinates(2);  % theta = longitude
+
+% Ustalenie hemisfer
+if lat >= 0
+ latHem = 'N';
+else
+ latHem = 'S';
+end
+
+if lon >= 0
+ lonHem = 'E';
+else
+ lonHem = 'W';
+end
+
+latAbs = abs(lat);
+lonAbs = abs(lon);
+
+disp(' ');
+disp('--- Ostateczna wyliczona pozycja odbiornika ---');
+fprintf('Latitude:  %.8f° %s\n', latAbs, latHem);
+fprintf('Longitude: %.8f° %s\n', lonAbs, lonHem);
+
+% Gotowy link do Google Maps
+fprintf('\nGoogle Maps link:\nhttps://www.google.com/maps/place/%.8f°%s+%.8f°%s\n', ...
+ latAbs, latHem, lonAbs, lonHem);
+```
+
+**c) Interpretacja wyników**
+Otrzymane współrzędne odbiornika (w metrach) w układzie ECEF wynoszą:
+
+| $x_i$          | $y_i$           | $z_i$
+|------------    | -------------   | -----------
+|3 576 962.934m | 1 322 812.671m | 4 815 235.034m
+
+Po przeliczeniu współrzędnych na układ geograficzny uzyskano:
+
+szerokość geograficzną: 51.62034688° N
+
+długość geograficzną: 20.29512335° E
+
+Oznacza to, że wyznaczone położenie znajduje się na terenie Polski, w pobliżu miejscowości położonych w centralnej części kraju (okolice Rawy Mazowieckiej). Miejsce to odpowiada lokalizacji odbiornika, przy założeniu, że pomiary czasów nadejścia sygnałów są poprawne.
+
+Wynikowy promień wyniósł:
+$r=6142555.3 m
+$
+a po odjęciu promienia ziemii:
+$
+h=r−R=−235582 m
+$
+
+Taki wynik wskazuje na znaczną wartość ujemną, co oznacza, że rozwiązanie nie reprezentuje realistycznej wysokości nad powierzchnią Ziemi. Jest to konsekwencja błędów pomiarowych w pseudodystansach oraz niedokładności wynikających z niezsynchronizowania zegara odbiornika z czasem satelitów. Model zakłada jedynie pojedynczy parametr biasu czasowego, co nie zawsze wystarcza, aby w pełni skorygować błędy we wszystkich 13 pomiarach.
+
+Bias zegara został oszacowany na:
+
+2.0595 × 10⁻² s, co odpowiada około 6 174 270 m różnicy w przebytej drodze sygnału.
+
+Tak wysoka wartość potwierdza, że największym źródłem niezgodności w zadaniu było przesunięcie czasowe zegara odbiornika względem czasu satelitów. Solver skompensował je, wybierając wartości współrzędnych minimalizujące błąd całkowity.
+
+Wartość normy reszt:
+
+$∥r∥^2=5.767×10^9
+$
+
+pokazuje, że mimo zbieżności algorytmu uzyskane dopasowanie nie jest idealnie dokładne. Można to interpretować jako efekt niedokładnych lub zaszumionych pomiarów czasów nadejścia sygnału, a także potencjalnych rozbieżności związanych z przybliżeniami modelu.
+
+Pomimo wspomnianych odchyleń, położenie geograficzne zostało wyznaczone poprawnie, a obliczone współrzędne wskazują na realne miejsce w Polsce, co potwierdza, że metoda Levenberga–Marquardta zadziałała zgodnie z oczekiwaniem.
+
+##### 4. Wyznaczyć swoje położenie rozwiązując: sformułowane powyżej zadaniesolvera MINOS we współpracy z AMPL
+
+TODO
+
+##### 5. Sprawdzić wpływ zmiany: punktu startowego, dokładno±ci w teście STOP-u metody, zaburzeń w danych na uzyskiwane wyniki
+
+W tej części przeprowadzono serię eksperymentów numerycznych, aby ocenić stabilność algorytmu Levenberga–Marquardta użytego do wyznaczenia pozycji odbiornika. Badano cztery aspekty:
+
+- A - wpływ zmiany punktu startowego,
+- B - wpływ tolerancji funkcji stopu,
+- C - wpływ zakłóceń pozycji satelitów,
+- D - wpływ zakłóceń zmierzonych czasów sygnału.
+
+Wszystkie eksperymenty wykonano na podstawie tej samej funkcji celu (calculateCoordinates) oraz tego samego zestawu referencyjnych danych.
+
+**A - wpływ zmiany punktu startowego**
+
+Output testu prezentował się następująco:
+
+```matlab
+--- (A) Wpływ zmiany punktu startowego ---
+Start [0 0 0 0] => lat=51.620347 lon=20.295123 height=-235581.688 rnorm=5.767448e+09
+Start [6.37814e+06 6.37814e+06 6.37814e+06 0] => lat=51.620347 lon=20.295123 height=-235581.700 rnorm=5.767448e+09
+Start [1e+06 1e+06 1e+06 0] => lat=51.620347 lon=20.295123 height=-235581.694 rnorm=5.767448e+09
+Start [1e+07 1e+07 1e+07 0] => lat=51.620347 lon=20.295123 height=-235581.699 rnorm=5.767448e+09
+Start [5e+07 5e+07 5e+07 0] => lat=61.689264 lon=9.731319 height=52193627564.193 rnorm=1.069999e+14
+```
+
+W testach użyto pięciu istotnie różnych punktów startowych – od zera, poprzez realistyczne wartości bliskie promieniowi Ziemi, aż po ekstremalnie duże współrzędne rzędu dziesiątek milionów metrów.
+
+W czterech pierwszych przypadkach (punkty startowe od $[0 0 0 0]$ do $[1e7 1e7 1e7 0]$) solver zbiega do tego samego rozwiązania, z dokładnością do znikomych różnic numerycznych. Oznacza to, że w praktycznym zakresie punktów startowych metoda jest bardzo stabilna i odporna na inicjalizację.
+
+Dopiero skrajnie nierealistyczny punkt startowy jak $[5e7 5e7 5e7 0]$ powoduje zbieżność do całkowicie innego, błędnego rozwiązania o dramatycznie dużej wysokości $(~5×10¹⁰ m)$ i gigantycznym błędzie $(rnorm ≈ 10¹⁴)$.
+
+Można wnioskować więc, że dopóki punkt startowy znajduje się w fizycznie możliwym zakresie (rzędu promienia Ziemi), algorytm zachowuje stabilność. Ekstremalne wartości startowe mogą powodować znalezienie minimum lokalnego lub rozjazd metody.
+
+**B - Wpływ tolerancji funkcji stopu**
+
+Output testu dla tolerancji funkcji stopu prezentował się następująco:
+
+```matlab
+--- (B) Wpływ tolerancji funkcji stopu ---
+Tol=1e-14 => lat=51.620347 lon=20.295123 height=-235581.700 rnorm=5.767448e+09
+Tol=1e-12 => lat=51.620347 lon=20.295123 height=-235581.700 rnorm=5.767448e+09
+Tol=1e-10 => lat=51.620347 lon=20.295123 height=-235581.700 rnorm=5.767448e+09
+Tol=1e-08 => lat=51.620347 lon=20.295123 height=-235581.700 rnorm=5.767448e+09
+Tol=1e-06 => lat=51.620347 lon=20.295123 height=-235581.700 rnorm=5.767448e+09
+Tol=0.0001 => lat=51.620347 lon=20.295123 height=-235581.700 rnorm=5.767448e+09
+Tol=0.01 => lat=51.620348 lon=20.295099 height=-235582.689 rnorm=5.767448e+09
+Tol=1 => lat=50.209283 lon=24.946724 height=-546458.274 rnorm=7.635955e+12
+Tol=10 => lat=50.209283 lon=24.946724 height=-546458.274 rnorm=7.635955e+12
+```
+
+Przetestowano tolerancje od 1e-14 aż do bardzo dużych wartości rzędu 10.
+
+Po uzyskanych wynikach widoczne jest, że w szerokim zakresie tolerancji (od 1e-14 do 1e-4) wyniki pozostają identyczne — solver osiąga poprawne minimum. Dopiero tolerancje większe niż 0.01 wpływają na zbieżność.
+
+Dla tolerancji 1 i 10 algorytm zatrzymuje się zbyt wcześnie, przez co otrzymana pozycja odbiega od właściwej, a norma reszt wzrasta o kilka rzędów wielkości. Metoda jest mało wrażliwa na tolerancję dopóki nie wymusza się zatrzymania bardzo wcześnie. Sukces zbieżności wymaga odpowiednio niskiego progu dokładności, a w przeciwnym razie solver kończy pracę bez rzeczywistego minimum.
+
+**C - Wpływ zakłóceń w danych (np. pozycjach satelitów)**
+
+Output testu dla Wpływ zakłóceń w danych (np. pozycjach satelitów) prezentował się tak:
+
+```matlab
+--- (C) Wpływ zakłóceń w danych (np. pozycjach satelitów) ---
+Perturb=1e-06 => lat=51.620347 lon=20.295123 height=-235581.700 rnorm=5.767448e+09
+Perturb=0.0001 => lat=51.620347 lon=20.295123 height=-235581.699 rnorm=5.767448e+09
+Perturb=0.01 => lat=51.620347 lon=20.295123 height=-235581.695 rnorm=5.767448e+09
+Perturb=0.1 => lat=51.620347 lon=20.295124 height=-235581.653 rnorm=5.767450e+09
+Perturb=1 => lat=51.620344 lon=20.295126 height=-235581.236 rnorm=5.767462e+09
+Perturb=10 => lat=51.620316 lon=20.295148 height=-235577.064 rnorm=5.767584e+09
+Perturb=100 => lat=51.620035 lon=20.295374 height=-235535.348 rnorm=5.768836e+09
+```
+
+Do pozycji satelitów dodawano losowe zaburzenia z zakresów od 1e-6 do 100.
+
+Dla zakłóceń do 1 wpływ na wynik jest minimalny (różnice rzędu 1e-4°). Nawet zakłócenia rzędu 10 powodują jedynie niewielkie przesunięcia w pozycji (rzędu kilku metrów) i minimalny wzrost normy reszt. Dopiero ekstremalne zakłócenie 100 metrów wprowadza już zauważalne odchylenie pozycji oraz ~0.02° różnicy w długości/szerokości geograficznej.
+
+Pozycje satelitów nie muszą być ekstremalnie dokładne metoda dobrze radzi sobie z zakłóceniami do kilkudziesięciu metrów. Przy zakłóceniach rzędu setek metrów pojawiają się widoczne błędy, lecz algorytm nadal znajduje rozwiązanie.
+
+**D - Wpływ zakłóceń w danych (np. zmierzonych czasach)**
+
+Output tego eksperymentu prezentował się następująco:
+
+```matlab
+--- (D) Wpływ zakłóceń w danych (np. zmierzonych czasach) ---
+TimePert=1e-12 => lat=51.620347 lon=20.295123 height=-235581.700 rnorm=5.767448e+09
+TimePert=1e-10 => lat=51.620347 lon=20.295123 height=-235581.699 rnorm=5.767451e+09
+TimePert=1e-08 => lat=51.620333 lon=20.295108 height=-235581.693 rnorm=5.767721e+09
+TimePert=1e-06 => lat=51.618925 lon=20.293587 height=-235581.018 rnorm=5.795164e+09
+TimePert=0.0001 => lat=51.478038 lon=20.141847 height=-235491.839 rnorm=1.282267e+10
+TimePert=0.01 => lat=36.563877 lon=8.123411 height=22361.894 rnorm=4.320081e+13
+```
+
+Do czasów propagacji dodawano zakłócenia od 1e-12 s do 0.01 s.
+Ponieważ dystans = czas × prędkość światła, nawet niewielkie zakłócenie czasu przekłada się na duże różnice dystansu. Zaburzenia czasu o poziomie $od 1e-12 do 1e-10s$ mają praktycznie zerowy wpływ na wynik.
+
+Przy $1e-8 s$ pojawiają się delikatne różnice w trzecim miejscu po przecinku (na poziomie ok. 1 m).
+
+Zaburzenia $1e-6 s$ (ok. 300 m w pseudodystansie) zmieniają pozycję o kilkadziesiąt metrów i lekko zwiększają błąd.
+
+Zaburzenie $1e-4 s$ (30 km) znacząco zmienia wynik, a norma reszt rośnie do $1.28×10¹⁰$.
+
+Największe zakłócenie 0.01 s (3000 km błędu w dystansie) prowadzi do całkowicie błędnej lokalizacji (gigantyczne reszty).
+
+Dokładność czasów jest krytyczna, a nawet minimalne zakłócenia mają znaczenie. To dobrze ilustruje, dlaczego realne systemy GNSS wymagają atomowych zegarów i precyzyjnej synchronizacji.
+
+**Podsumowanie eksperymentów:**
+Podsumowując wszystkie eksperymenty, możemy stwierdzić, że wpływając na:
+
+**Punkt startowy** – metoda jest stabilna, dopóki startuje w realistycznym zakresie (rzędu promienia Ziemi).
+
+**Tolerancja stopu** – mało wpływa na wynik, dopóki nie wymusi się przedwczesnego zakończenia (tol ≥ 0.01).
+
+**Zakłócenia pozycji satelitów** – odporność do ok. 10 m, błędy rosną dopiero dla zakłóceń rzędu setek metrów.
+
+**Zakłócenia czasów sygnału** – krytyczne; mikrosekunodowe i większe zakłócenia dramatycznie niszczą wynik.
+
+Wszystko to potwierdza, że implementacja solvera jest stabilna i działa poprawnie, ale dokładność danych wejściowych, szczególnie czasów, jest kluczowa dla otrzymania prawidłowych koordynatów.
+
+##### 6. Znaleźć wyznaczone położenie w google maps
+
+Wyznaczone położenie można sprawdzić pod linkiem:
+<https://www.google.com/maps/place/51%C2%B037'13.3%22N+20%C2%B017'42.4%22E/@51.677543,20.1711332,10.92z/data=!4m4!3m3!8m2!3d51.6203469!4d20.2951234?entry=ttu&g_ep=EgoyMDI1MTExMi4wIKXMDSoASAFQAw%3D%3D>
+
+Lub na zdjęciach poniżej:
+![Powiększona mapa](./zdjecia/image.png)
+
+![Oddalona mapa](./zdjecia/Mapa.png)

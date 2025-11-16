@@ -60,8 +60,7 @@ options = optimoptions( ...
 startingState = [radius; radius; radius; 0];
 
 % --- Wywołanie solvera ---
-[solution, squaredResidualNorm] = calculateCoordinates( ...
-	positions, distances, startingState, options);
+[solution, squaredResidualNorm] = calculateCoordinates(positions, distances, startingState, options);
 
 % --- Rozpakowanie wyniku ---
 x = solution(1);
