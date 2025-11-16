@@ -1,17 +1,9 @@
-# solve.run — poprawny skrypt AMPL uruchamiający lokalizację z solverem MINOS
-
 reset;
 
 model model.mod;
 data dane.dat;
 
 option solver minos;
-
-# Wstępne zgadywanie punktu startowego
-let x_odb := R;
-let y_odb := R;
-let z_odb := R;
-let b_zegara := 0;
 
 solve;
 
@@ -58,6 +50,3 @@ printf "https://www.google.com/maps/place/%.8f%%C2%%B0%s+%.8f%%C2%%B0%s\n",
     abs(atan2(y_odb, x_odb) * 180 / pi),
     if atan2(y_odb, x_odb) >= 0 then "E" else "W";
 
-print " ";
-print "Koniec skryptu solve.run.";
-print " ";

@@ -418,9 +418,134 @@ Pomimo wspomnianych odchyleń, położenie geograficzne zostało wyznaczone popr
 
 ##### 4. Wyznaczyć swoje położenie rozwiązując: sformułowane powyżej zadaniesolvera MINOS we współpracy z AMPL
 
-TODO
+Przygotowany został również AMPL'owy odpowiednik modelu, który działa na tej samej zasadzie. Wykorzystywanym solverem był solver MINOS.
 
-##### 5. Sprawdzić wpływ zmiany: punktu startowego, dokładno±ci w teście STOP-u metody, zaburzeń w danych na uzyskiwane wyniki
+```py
+set SAT;                
+
+param pi := acos(-1);
+
+param R;                      
+param v_syg;                  
+
+param theta_deg{SAT};         
+param phi_deg{SAT};           
+param r_sat{SAT};            
+param czas{SAT};              
+
+# pseudodystanse
+param d{j in SAT} := v_syg * czas[j];
+
+# zamiana stopni na radiany i konwersja współrzędnych satelitów do kartezjanskich
+param theta_rad{j in SAT} := theta_deg[j] * pi / 180;
+param phi_rad{j in SAT}   := phi_deg[j] * pi / 180;
+
+param x_sat{j in SAT} := r_sat[j] * cos(theta_rad[j]) * cos(phi_rad[j]);
+param y_sat{j in SAT} := r_sat[j] * cos(theta_rad[j]) * sin(phi_rad[j]);
+param z_sat{j in SAT} := r_sat[j] * sin(theta_rad[j]);
+
+var x_odb; 
+var y_odb;
+var z_odb;
+var b_zegara;  
+
+# funkcja celu: suma kwadratów różnic (pseudodystanse + bias)
+minimize cel :
+    sum {j in SAT} ( sqrt( (x_odb - x_sat[j])^2 + (y_odb - y_sat[j])^2 + (z_odb - z_sat[j])^2 )
+                     - ( d[j] + v_syg * b_zegara ) )^2 ;
+
+```
+
+Natomiast plik runnera zwierał tą samą funkcjonalność, zostały wydzielone poszczególne sekcje rozwiązania i wyglądał następująco:
+
+```py
+reset;
+
+model model.mod;
+data dane.dat;
+
+option solver minos;
+
+solve;
+
+# Wyświetlenie wyników w ECEF
+print "============================================";
+print " Wynik optymalizacji (AMPL + MINOS)";
+print "============================================";
+
+display x_odb, y_odb, z_odb, b_zegara;
+
+
+print " ";
+print "============================================";
+print " Współrzędne geograficzne (stopnie)";
+print "============================================";
+
+printf "Szerokość geograficzna (latitude):  %.8f°\n", asin(z_odb / sqrt(x_odb^2 + y_odb^2 + z_odb^2)) * 180 / pi;
+printf "Długość geograficzna (longitude): %.8f°\n", atan2(y_odb, x_odb) * 180 / pi;
+
+# Formatowanie hemisfer
+print " ";
+print "============================================";
+print " Współrzędne geograficzne z hemisferami";
+print "============================================";
+
+printf "Latitude:  %.8f° %s\n",
+    abs(asin(z_odb / sqrt(x_odb^2 + y_odb^2 + z_odb^2)) * 180 / pi),
+    if asin(z_odb / sqrt(x_odb^2 + y_odb^2 + z_odb^2)) >= 0 then "N" else "S";
+
+printf "Longitude: %.8f° %s\n",
+    abs(atan2(y_odb, x_odb) * 180 / pi),
+    if atan2(y_odb, x_odb) >= 0 then "E" else "W";
+
+# Linczek do Google Maps
+print " ";
+print "============================================";
+print " Link do Google Maps";
+print "============================================";
+
+# %25 to znak %, bo printf w AMPL wymaga escapowania
+printf "https://www.google.com/maps/place/%.8f%%C2%%B0%s+%.8f%%C2%%B0%s\n",
+    abs(asin(z_odb / sqrt(x_odb^2 + y_odb^2 + z_odb^2)) * 180 / pi),
+    if asin(z_odb / sqrt(x_odb^2 + y_odb^2 + z_odb^2)) >= 0 then "N" else "S",
+    abs(atan2(y_odb, x_odb) * 180 / pi),
+    if atan2(y_odb, x_odb) >= 0 then "E" else "W";
+```
+
+Otrzymane wyniki za wykorzystaniem modelu AMPL'a:
+
+```py
+ampl: include zadanie.run
+MINOS 5.51: the current point cannot be improved.
+27 iterations, objective 5767448345
+Nonlin evals: obj = 60, grad = 59.
+============================================
+ Wynik optymalizacji (AMPL + MINOS)
+============================================    
+x_odb = 3576960
+y_odb = 1322810
+z_odb = 4815240
+b_zegara = -0.0205952
+
+
+============================================    
+ Współrzędne geograficzne (stopnie)
+============================================    
+Szerokość geograficzna (latitude):  51.62034687°
+Długość geograficzna (longitude): 20.29512337°  
+
+============================================
+ Współrzędne geograficzne z hemisferami
+============================================
+Latitude:  51.62034687° N
+Longitude: 20.29512337° E
+```
+
+Jak widać po otrzymanych wynikach obie implementacje  (MATLAB i AMPL) prowadzą do niemal tych samych współrzędnych odbiornika.
+
+Minimalne różnice wynikają prawdopodobnie z różnych algorytmów optymalizacji i ustawień solverów, ale w praktyce lokalizacja jest zgodna.
+
+##### 5. Sprawdzić wpływ zmiany: punktu startowego, dokładności w teście STOP-u metody, zaburzeń w danych na uzyskiwane wyniki
 
 W tej części przeprowadzono serię eksperymentów numerycznych, aby ocenić stabilność algorytmu Levenberga–Marquardta użytego do wyznaczenia pozycji odbiornika. Badano cztery aspekty:
 
