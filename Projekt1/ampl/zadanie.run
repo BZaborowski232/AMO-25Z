@@ -1,0 +1,64 @@
+# solve.run — poprawny skrypt AMPL uruchamiający lokalizację z solverem MINOS
+
+reset;
+
+model model.mod;
+data dane.dat;
+
+option solver minos;
+
+# --- Wstępne zgadywanie punktu startowego ---
+let x_odb := R;
+let y_odb := R;
+let z_odb := R;
+let b_zegara := 0;
+
+# --- Rozwiązanie problemu ---
+solve;
+
+# --- Wyświetlenie wyników w ECEF ---
+print "============================================";
+print " Wynik optymalizacji (AMPL + MINOS)";
+print "============================================";
+
+display x_odb, y_odb, z_odb, b_zegara;
+
+# --- Obliczenie współrzędnych geograficznych (bez tworzenia zmiennych lat/lon) ---
+print " ";
+print "============================================";
+print " Współrzędne geograficzne (stopnie)";
+print "============================================";
+
+printf "Szerokość geograficzna (latitude):  %.8f°\n", asin(z_odb / sqrt(x_odb^2 + y_odb^2 + z_odb^2)) * 180 / pi;
+printf "Długość geograficzna (longitude): %.8f°\n", atan2(y_odb, x_odb) * 180 / pi;
+
+# --- Formatowanie hemisfer ---
+print " ";
+print "============================================";
+print " Współrzędne geograficzne z hemisferami";
+print "============================================";
+
+printf "Latitude:  %.8f° %s\n",
+    abs(asin(z_odb / sqrt(x_odb^2 + y_odb^2 + z_odb^2)) * 180 / pi),
+    if asin(z_odb / sqrt(x_odb^2 + y_odb^2 + z_odb^2)) >= 0 then "N" else "S";
+
+printf "Longitude: %.8f° %s\n",
+    abs(atan2(y_odb, x_odb) * 180 / pi),
+    if atan2(y_odb, x_odb) >= 0 then "E" else "W";
+
+# --- Link do Google Maps ---
+print " ";
+print "============================================";
+print " Link do Google Maps";
+print "============================================";
+
+# %25 to znak %, bo printf w AMPL wymaga escapowania
+printf "https://www.google.com/maps/place/%.8f%%C2%%B0%s+%.8f%%C2%%B0%s\n",
+    abs(asin(z_odb / sqrt(x_odb^2 + y_odb^2 + z_odb^2)) * 180 / pi),
+    if asin(z_odb / sqrt(x_odb^2 + y_odb^2 + z_odb^2)) >= 0 then "N" else "S",
+    abs(atan2(y_odb, x_odb) * 180 / pi),
+    if atan2(y_odb, x_odb) >= 0 then "E" else "W";
+
+print " ";
+print "Koniec skryptu solve.run.";
+print " ";
