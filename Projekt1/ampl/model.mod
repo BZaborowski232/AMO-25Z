@@ -14,7 +14,7 @@ param czas{SAT};
 # pseudodystanse liczone w modelu
 param d{j in SAT} := v_syg * czas[j];
 
-# zamiana stopni -> radiany i konwersja współrzędnych satelitów do kartezjanskich
+# zamiana stopni na radiany i konwersja współrzędnych satelitów do kartezjanskich
 param theta_rad{j in SAT} := theta_deg[j] * pi / 180;
 param phi_rad{j in SAT}   := phi_deg[j] * pi / 180;
 
@@ -32,6 +32,3 @@ minimize cel :
     sum {j in SAT} ( sqrt( (x_odb - x_sat[j])^2 + (y_odb - y_sat[j])^2 + (z_odb - z_sat[j])^2 )
                      - ( d[j] + v_syg * b_zegara ) )^2 ;
 
-
-# var lat_deg := asin( z_odb / sqrt(x_odb^2 + y_odb^2 + z_odb^2) ) * 180 / pi;
-# var lon_deg := atan2( y_odb, x_odb ) * 180 / pi;
