@@ -1,4 +1,4 @@
-# Algorytmy i metody optymalizacji - Raport 1
+# Algorytmy i metody optymalizacji
 
 ## Temat: Optymalizacja bez ograniczeń - Projekt nr 1; Zestaw nr 13
 
@@ -131,9 +131,9 @@ Kiedy wykonamy podstawienie danych do powyższych wzorów, uzyskamy współrzęd
 
 Aby odtworzyć ze współrzędnych kartezjańskich $(x, y, z)$ współrzędne sferyczne $(r, \theta, \phi)$ należy zastosować wzory odwrotne.
 
-- $$r = \sqrt{x^2 + y^2 + z^2}$$
-- $$\theta = \arcsin(\frac{z}{r}) = \arcsin(\frac{z}{\sqrt{x^2 + y^2 + z^2}})$$
-- $$\phi = arctg(\frac{y}{x})$$
+$$r = \sqrt{x^2 + y^2 + z^2}$$
+$$\theta = \arcsin(\frac{z}{r}) = \arcsin(\frac{z}{\sqrt{x^2 + y^2 + z^2}})$$
+$$\phi = arctg(\frac{y}{x})$$
 
 **Zmienne:**
 
@@ -215,9 +215,9 @@ Przy rozwiązywaniu zadania posłużyłem się programem MATLAB, a konkretniej t
 **a) Konwersja współrzędnych satelitów**
 Współrzędne satelitów podane w układzie sferycznym (kąty theta, phi i wysokość nad Ziemią) zostały przekształcone na układ kartezjański $(x, y, z)$ za pomocą wzorów:
 
-- $$x = x(r,\theta, \phi) = r\ \cos\theta\ \cos\phi$$
-- $$y = y(r,\theta, \phi) = r\ \cos\theta\ \sin\phi$$
-- $$z = z(r,\theta, \phi) = r\ \sin\theta$$
+$$x = x(r,\theta, \phi) = r\ \cos\theta\ \cos\phi$$
+$$y = y(r,\theta, \phi) = r\ \cos\theta\ \sin\phi$$
+$$z = z(r,\theta, \phi) = r\ \sin\theta$$
 gdzie:
 
 $r_i = R + h_i$ jest całkowitą odległością od środka Ziemii, a $R = 6378137m$ to promień Ziemii.
@@ -316,9 +316,9 @@ Funkcja calculateCoordinates iteracyjnie dopasowuje współrzędne odbiornika $(
 - współczynnik reszt kwadratowych squaredResidualNorm,
 - współrzędne sferyczne $(\theta, \phi, r)$ odbiornika, które pozwoliły na uzyskanie szerokości i długości geograficznej
 
-Bias zegara okazał się być bardzo istotnym parametrem, ponieważ pozwala skorygować przesunięcia czasowe w pomiarach sygnałów od satelitów, dzięki czemu uzyskane współrzędne odbiornika są poprawne i spójne z rzeczywistym położeniem.
+Bias zegara okazał się być bardzo istotnym parametrem, ponieważ pozwala skorygować przesunięcia czasowe w pomiarach sygnałów od satelitów, dzięki czemu dopiero po jego uwzględnieniu, uzyskane współrzędne odbiornika są poprawne i spójne z rzeczywistym położeniem.
 
-W wyniku działania algorytmu, wyniki prezentowane są zarówno w układzie kartezjańskim, jak i geograficznym. Niezwykle przydatną funkcjonalnością przygotowaną przeze mnie podczas wykonywania zadania, okazało się dodatkowe zwracanie przez algorytm, linka do Google Maps (zwierającego przeliczone współrzędne wynikowe), gotowego do przeklejenia do przeglądarkę. Link przenosił mnie od razu do lokalizacji odpowiadającej wyiczonym współrzędnym, bez konieczności wpisywania ich za każdym razem ręcznie. Pozwoliło to zaoszczędzić wiele czasu podczas sprawdzania lokalizacji wynikowej, po każdej kolejnej poprawce czy zmianie w strukturach algorytmu.
+W wyniku działania algorytmu, wyniki prezentowane są zarówno w układzie kartezjańskim, jak i geograficznym. Niezwykle przydatną funkcjonalnością przygotowaną przeze mnie podczas wykonywania zadania, okazało się dodatkowe zwracanie przez algorytm, linka do Google Maps (zwierającego przeliczone współrzędne wynikowe), gotowego do przeklejenia w przeglądarkę. Link przenosił mnie od razu do lokalizacji odpowiadającej wyliczonym współrzędnym, bez konieczności wpisywania ich za każdym razem ręcznie. Pozwoliło to zaoszczędzić wiele czasu podczas sprawdzania poprawności i realności lokalizacji wynikowej, po każdej kolejnej poprawce czy zmianie w strukturach algorytmu.
 
 Implementacja wynikowego printu wyglądała następująco:
 
@@ -381,7 +381,7 @@ Otrzymane współrzędne odbiornika (w metrach) w układzie ECEF wynoszą:
 
 | $x_i$          | $y_i$           | $z_i$
 |------------    | -------------   | -----------
-|3 576 962.934m | 1 322 812.671m | 4 815 235.034m
+|3 576 962.934m  | 1 322 812.671m  | 4 815 235.034m
 
 Po przeliczeniu współrzędnych na układ geograficzny uzyskano:
 
@@ -399,7 +399,7 @@ $
 h=r−R=−235582 m
 $
 
-Taki wynik wskazuje na znaczną wartość ujemną, co oznacza, że rozwiązanie nie reprezentuje realistycznej wysokości nad powierzchnią Ziemi. Jest to konsekwencja błędów pomiarowych w pseudodystansach oraz niedokładności wynikających z niezsynchronizowania zegara odbiornika z czasem satelitów. Model zakłada jedynie pojedynczy parametr biasu czasowego, co nie zawsze wystarcza, aby w pełni skorygować błędy we wszystkich 13 pomiarach.
+Taki wynik wskazuje na znaczną wartość ujemną, co oznacza, że rozwiązanie nie reprezentuje realistycznej wysokości nad powierzchnią Ziemi. Otrzymana wysokość względem elipsoidy Ziemi przyjmuje wartość ujemną, co w tego typu obliczeniach nie jest zjawiskiem nietypowym. Metoda wyznaczania pozycji oparta na minimalizacji błędów pomiarowych z ograniczonej liczby satelitów zapewnia jedynie przybliżone rozwiązanie. Z tego powodu odchylenia, w tym ujemna wysokość, mogą naturalnie wynikać z błędów pseudoodległości, niedokładności modelu oraz charakteru numerycznej optymalizacji. Wynik ten należy więc traktować jako konsekwencję niepewności pomiarowych, a nie błąd obliczeń.
 
 Bias zegara został oszacowany na:
 
@@ -416,7 +416,7 @@ pokazuje, że mimo zbieżności algorytmu uzyskane dopasowanie nie jest idealnie
 
 Pomimo wspomnianych odchyleń, położenie geograficzne zostało wyznaczone poprawnie, a obliczone współrzędne wskazują na realne miejsce w Polsce, co potwierdza, że metoda Levenberga–Marquardta zadziałała zgodnie z oczekiwaniem.
 
-##### 4. Wyznaczyć swoje położenie rozwiązując: sformułowane powyżej zadaniesolvera MINOS we współpracy z AMPL
+##### 4. Wyznaczyć swoje położenie rozwiązując: sformułowane powyżej zadanie solvera MINOS we współpracy z AMPL
 
 Przygotowany został również AMPL'owy odpowiednik modelu, który działa na tej samej zasadzie. Wykorzystywanym solverem był solver MINOS.
 
