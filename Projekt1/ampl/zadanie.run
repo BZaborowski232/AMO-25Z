@@ -37,7 +37,7 @@ printf "Longitude: %.8f° %s\n",
     abs(atan2(y_odb, x_odb) * 180 / pi),
     if atan2(y_odb, x_odb) >= 0 then "E" else "W";
 
-# Linczek do Google Maps
+# Link do Google Maps
 print " ";
 print "============================================";
 print " Link do Google Maps";

@@ -323,18 +323,18 @@ W wyniku działania algorytmu, wyniki prezentowane są zarówno w układzie kart
 Implementacja wynikowego printu wyglądała następująco:
 
 ```matlab
-% --- Rozpakowanie wyniku ---
+% Rozpakowanie wyniku
 x = solution(1);
 y = solution(2);
 z = solution(3);
 bias = solution(4);
 
-% --- Wyświetlenie wyników ---
+% Wyświetlenie wyników
 fprintf("Result (ECEF): x = %.3f, y = %.3f, z = %.3f\n", x, y, z);
 fprintf("Clock bias (s): %.10e\n", bias);
 fprintf("Clock bias (m): %.3f\n", bias * velocity);
 
-% --- Przeliczenie pozycji na współrzędne sferyczne ---
+% Przeliczenie pozycji na współrzędne sferyczne
 sphericalCoordinates = cartesianToSpherical([x, y, z]);
 
 fprintf("Result (spherical): theta = %.6f deg, phi = %.6f deg, radius = %.3f m\n", ...
@@ -345,7 +345,7 @@ fprintf("Height above Earth (m): %.3f\n", sphericalCoordinates(3) - radius);
 fprintf("Squared residual norm: %.6f\n", squaredResidualNorm);
 
 
-% --- Princik w formacie od razu z linkiem do google mapsa ---
+%  Print w formacie od razu z linkiem do google mapsa
 % Wyciągnięcie wynikowych współrzędnych
 lat = sphericalCoordinates(1);  % phi = latitude
 lon = sphericalCoordinates(2);  % theta = longitude
@@ -367,11 +367,10 @@ latAbs = abs(lat);
 lonAbs = abs(lon);
 
 disp(' ');
-disp('--- Ostateczna wyliczona pozycja odbiornika ---');
+disp('Ostateczna wyliczona pozycja odbiornika');
 fprintf('Latitude:  %.8f° %s\n', latAbs, latHem);
 fprintf('Longitude: %.8f° %s\n', lonAbs, lonHem);
 
-% Gotowy link do Google Maps
 fprintf('\nGoogle Maps link:\nhttps://www.google.com/maps/place/%.8f°%s+%.8f°%s\n', ...
  latAbs, latHem, lonAbs, lonHem);
 ```
@@ -498,7 +497,7 @@ printf "Longitude: %.8f° %s\n",
     abs(atan2(y_odb, x_odb) * 180 / pi),
     if atan2(y_odb, x_odb) >= 0 then "E" else "W";
 
-# Linczek do Google Maps
+# Link do Google Maps
 print " ";
 print "============================================";
 print " Link do Google Maps";
