@@ -3,11 +3,11 @@ close all
 clear
 clc
 
-% --- Stałe fizyczne ---
+% Stałe fizyczne
 radius = 6378137;           % promień Ziemi (m)
 velocity = 299792458;       % prędkość światła (m/s)
 
-% --- Pozycje satelitów w układzie sferycznym ---
+% Pozycje satelitów w układzie sferycznym
 % Format: [theta (deg), phi (deg), radius (m)]
 sphericalPositions = [
 	6.1559355081676     52.5457318089284    25891401.0;
@@ -25,7 +25,7 @@ sphericalPositions = [
 	43.4788434173197    -7.4150994801044    19156249.9
 	];
 
-% --- Zmierzone czasy sygnałów od satelitów (sekundy) ---
+% Zmierzone czasy sygnałów od satelitów (sekundy)
 times = [
 	0.09642964511743930;
 	0.08511665086736160;
@@ -42,13 +42,13 @@ times = [
 	0.06584869085813090
 	];
 
-% --- Zamiana czasu na pseudoodległość ---
+% Zamiana czasu na pseudoodległość
 distances = times * velocity;
 
-% --- Konwersja satelitów do układu kartezjańskiego ---
+% Konwersja satelitów do układu kartezjańskiego
 positions = sphericalToCartesian(sphericalPositions);
 
-% --- Opcje solvera ---
+% Opcje solvera
 options = optimoptions( ...
 	"lsqnonlin", ...
 	"Algorithm", "levenberg-marquardt", ...
@@ -56,35 +56,34 @@ options = optimoptions( ...
 	"Display", "off" ...
 	);
 
-% --- Wektor startowy: x, y, z, bias_zegara ---
+% Wektor startowy: x, y, z, bias_zegara
 startingState = [radius; radius; radius; 0];
 
-% --- Wywołanie solvera ---
+% Wywołanie solvera
 [solution, squaredResidualNorm] = calculateCoordinates(positions, distances, startingState, options);
 
-% --- Rozpakowanie wyniku ---
+% Rozpakowanie wyniku
 x = solution(1);
 y = solution(2);
 z = solution(3);
 bias = solution(4);
 
-% --- Wyświetlenie wyników ---
+% Wyświetlenie wyników
 fprintf("Result (ECEF): x = %.3f, y = %.3f, z = %.3f\n", x, y, z);
 fprintf("Clock bias (s): %.10e\n", bias);
 fprintf("Clock bias (m): %.3f\n", bias * velocity);
 
-% --- Przeliczenie pozycji na współrzędne sferyczne ---
+% Przeliczenie pozycji na współrzędne sferyczne
 sphericalCoordinates = cartesianToSpherical([x, y, z]);
 
-fprintf("Result (spherical): theta = %.6f deg, phi = %.6f deg, radius = %.3f m\n", ...
-	sphericalCoordinates(1), sphericalCoordinates(2), sphericalCoordinates(3));
+fprintf("Result (spherical): theta = %.6f deg, phi = %.6f deg, radius = %.3f m\n", sphericalCoordinates(1), sphericalCoordinates(2), sphericalCoordinates(3));
 
 fprintf("Height above Earth (m): %.3f\n", sphericalCoordinates(3) - radius);
 
 fprintf("Squared residual norm: %.6f\n", squaredResidualNorm);
 
 
-% --- Princik w formacie od razu z linkiem do google mapsa ---
+% Printq w formacie od razu z linkiem do google mapsa
 % Wyciągnięcie wynikowych współrzędnych
 lat = sphericalCoordinates(1);  % phi = latitude
 lon = sphericalCoordinates(2);  % theta = longitude
@@ -125,7 +124,7 @@ fprintf('\nGoogle Maps link:\nhttps://www.google.com/maps/place/%.8f°%s+%.8f°%
 
 fprintf('\n=====================\nEksperymenty\n=====================\n');
 
-%% --- (A) Zmiany punktu startowego ---
+%% (A) Zmiany punktu startowego
 fprintf('\n--- (A) Wpływ zmiany punktu startowego ---\n');
 
 startingPositions = [
@@ -149,7 +148,7 @@ for i = 1:size(startingPositions,1)
 end
 
 
-%% --- (B) Wpływ tolerancji funkcji stopu ---
+%% (B) Wpływ tolerancji funkcji stopu
 fprintf('\n--- (B) Wpływ tolerancji funkcji stopu ---\n');
 
 funcTol = [1e-14 1e-12 1e-10 1e-8 1e-6 1e-4 1e-2 1 1e1];
@@ -167,7 +166,7 @@ for t = funcTol
 end
 
 
-%% --- (C) Wpływ zakłóceń w danych (np. pozycjach satelitów) ---
+%% (C) Wpływ zakłóceń w danych (np. pozycjach satelitów)
 fprintf('\n--- (C) Wpływ zakłóceń w danych (np. pozycjach satelitów) ---\n');
 
 disturbs = [1e-6 1e-4 1e-2 1e-1 1 10 100];
@@ -187,7 +186,7 @@ for d = disturbs
 end
 
 
-%% --- (D) Wpływ zakłóceń w danych (np. zmierzonych czasach)  ---
+%% (D) Wpływ zakłóceń w danych (np. zmierzonych czasach)
 fprintf('\n--- (D) Wpływ zakłóceń w danych (np. zmierzonych czasach) ---\n');
 
 timeDisturbs = [1e-12 1e-10 1e-8 1e-6 1e-4 1e-2];
@@ -208,7 +207,7 @@ for dt = timeDisturbs
 end
 
 
-%% --- Save everything ---
+%% Zapis
 save('result.mat', 'solution', 'sphericalCoordinates', 'squaredResidualNorm');
 
 fprintf("\nEksperymenty zakończone pomyślnie, wszystkie wyniki zapisane do result.mat\n");

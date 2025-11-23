@@ -3,7 +3,7 @@ function [error, jacobian] = distanceError(currentState, positions, expectedDist
 x = currentState(1);
 y = currentState(2);
 z = currentState(3);
-b = currentState(4); % bias zegara w sekundach
+b = currentState(4); % bias zegara w sekundach potrzebny
 
 c = 299792458; % prędkość światła
 
