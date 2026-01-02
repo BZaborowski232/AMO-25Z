@@ -1,0 +1,15 @@
+Szanowni Państwo,
+
+W module sprawozdania znajdziecie Państwo treść zadania projektowego nr 2. Projekt jest troszkę eksperymentalny: 
+zamiast narzucać Państwu konkretne zadanie postanowiłem dać Państwu stosunkowo wolny wybór problemu, który mają 
+Państwo za zadanie rozwiązać. W zadaniu 1 oraz 2 oczekuję od Państwa rozwiązania dowolnych wypukłych problemów 
+kwadratowych z ograniczeniami z dwoma zmiennymi decyzyjnymi. W zadaniu trzecim należy zastosować 
+metodologię rozwiązywania QP do samodzielnie zaprojektowanego zadania dotyczącego rzeczywistego problemu. 
+Może to być problem techniczny, ekonomiczny lub z dowolnej innej dziedziny. Przy ocenie projektu będę przede wszystkim 
+zwracał uwagę na to, czy z opisu wynika, że rozumieją Państwo zastosowane metody i wyniki przeprowadzonych 
+eksperymentów i to co widać na wizualizacji problemów.
+
+Dokładniej projekt omówię na wykładzie, który odbędzie się 8.12.
+
+Pozdrawiam,
+K.Zarzycki
