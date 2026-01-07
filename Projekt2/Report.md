@@ -229,8 +229,8 @@ t^\top x^\ast =
 f(x^\ast) = \frac{1}{2} (x^\ast)^\top G x^\ast + t^\top x^\ast = 0.5 - 1.6667 = -1.1667
 \]
 
-### Podsumowanie
 
+**Podsumowanie:**
 - **Punkt optymalny:** \(x^\ast = \begin{bmatrix}2/3 \\ 1/3\end{bmatrix}\)  
 - **Wartość funkcji celu:** \(f(x^\ast) = -1.1667\)  
 - **Mnożnik Lagrange’a:** \(\lambda^\ast = 2/3\)
@@ -246,7 +246,7 @@ x_1 + x_2 = 1
 możemy wyeliminować jedną zmienną, np.:
 
 \[
-x_2 = 1 - x_1.
+x_2 = 1 - x_1
 \]
 
 
@@ -340,7 +340,6 @@ f(x^\star) = \phi(x_1^\star) = -1.1667.
 
 
 **Podsumowanie:**
-
 - \(x^\star = \begin{bmatrix} 2/3 \\ 1/3 \end{bmatrix}\)  
 - \(f(x^\star) = -1.1667\)
 
@@ -349,37 +348,111 @@ f(x^\star) = \phi(x_1^\star) = -1.1667.
 TODO
 ### (C) Metoda eliminacji uogólnionej z wykorzystaniem jądra macierzy \(A\)
 
-Macierz ograniczeń
+Macierz ograniczeń ma postać
 
 \[
-A = \begin{bmatrix} 1 & 1 \end{bmatrix}
+A = \begin{bmatrix} 1 & 1 \end{bmatrix},
 \]
 
-posiada jądro jednowymiarowe, rozpięte przez wektor
+a jej jądro jest jednowymiarowe i rozpięte przez wektor
 
 \[
 z = \begin{bmatrix} 1 \\ -1 \end{bmatrix},
 \quad \text{dla którego } Az = 0.
 \]
 
-Jako punkt szczególny spełniający ograniczenie można przyjąć
+Jako punkt szczególny spełniający ograniczenie \(Ax=b\) przyjmujemy
 
 \[
 x_p = \begin{bmatrix} 1 \\ 0 \end{bmatrix},
-\quad \text{gdyż } Ax_p = b.
+\quad \text{ponieważ } Ax_p = 1.
 \]
 
-Każde dopuszczalne rozwiązanie można więc zapisać w postaci
+Każde dopuszczalne rozwiązanie można zapisać w postaci
 
 \[
-x = x_p + z \alpha,
+x = x_p + z\alpha =
+\begin{bmatrix}
+1 + \alpha \\ -\alpha
+\end{bmatrix},
+\quad \alpha \in \mathbb{R}.
 \]
 
-gdzie \(\alpha \in \mathbb{R}\). Po podstawieniu powyższego parametryzowanego rozwiązania do funkcji celu otrzymuje się jednowymiarowe zadanie optymalizacji bez ograniczeń względem parametru \(\alpha\), które można rozwiązać analitycznie.
+Po podstawieniu do funkcji celu otrzymujemy funkcję jednowymiarową:
 
-### Rozwiązanie numeryczne z wykorzystaniem solvera `quadprog`
+\[
+\phi(\alpha) =
+\frac{1}{2}
+\begin{bmatrix}
+1+\alpha & -\alpha
+\end{bmatrix}
+\begin{bmatrix}
+2 & 0 \\ 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+1+\alpha \\ -\alpha
+\end{bmatrix}
++
+\begin{bmatrix}
+-2 & -1
+\end{bmatrix}
+\begin{bmatrix}
+1+\alpha \\ -\alpha
+\end{bmatrix}.
+\]
+
+Po wykonaniu mnożeń otrzymujemy
+
+\[
+\phi(\alpha)
+= \frac{1}{2} (2 + 4\alpha + 3\alpha^2) - (2 + \alpha)
+= \frac{3}{2}\alpha^2 + \alpha - 1
+\]
+
+Warunek konieczny minimum:
+
+\[
+\frac{d\phi}{d\alpha} = 3\alpha + 1 = 0
+\]
+
+prowadzi do rozwiązania
+
+\[
+\alpha^\ast = -\frac{1}{3}.
+\]
+
+Podstawiając do postaci ogólnej otrzymujemy punkt optymalny
+
+\[
+x^\ast =
+\begin{bmatrix}
+1 - \frac{1}{3} \\
+\frac{1}{3}
+\end{bmatrix}
+\]
+
+=
+
+\[
+\begin{bmatrix}
+\frac{2}{3} \\
+\frac{1}{3}
+\end{bmatrix}
+\]
+
+Otrzymane rozwiązanie jest zgodne z wynikami uzyskanymi metodą mnożników Lagrange’a oraz metodą eliminacji zmiennych.
+
+### (D) Rozwiązanie numeryczne z wykorzystaniem solvera `quadprog`
 
 Dla porównania rozwiązano również zadanie z wykorzystaniem wbudowanego solvera `quadprog` w środowisku MATLAB, wywołanego z wykorzystaniem ograniczeń równościowych. Uzyskane rozwiązanie numeryczne jest zgodne z wynikami otrzymanymi metodami analitycznymi, co potwierdza poprawność przeprowadzonych obliczeń.
+
+
+
+
+
+
+
+
 
 ### Wizualizacja problemu
 
