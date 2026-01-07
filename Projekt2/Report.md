@@ -444,15 +444,47 @@ Otrzymane rozwiązanie jest zgodne z wynikami uzyskanymi metodą mnożników Lag
 
 ### (D) Rozwiązanie numeryczne z wykorzystaniem solvera `quadprog`
 
-Dla porównania rozwiązano również zadanie z wykorzystaniem wbudowanego solvera `quadprog` w środowisku MATLAB, wywołanego z wykorzystaniem ograniczeń równościowych. Uzyskane rozwiązanie numeryczne jest zgodne z wynikami otrzymanymi metodami analitycznymi, co potwierdza poprawność przeprowadzonych obliczeń.
+Dla porównania zadanie rozwiązano również numerycznie w środowisku MATLAB z wykorzystaniem wbudowanego solvera `quadprog`. 
 
+Problem programowania kwadratowego przy jednym ograniczeniu równościowym został zapisany w postaci standardowej:
 
+\[
+\min_x \frac{1}{2} x^\top G x + t^\top x
+\quad \text{przy } Ax = b,
+\]
 
+gdzie:
 
+\[
+G = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}, \quad
+t = \begin{bmatrix}-2 \\ -1 \end{bmatrix}, \quad
+A = \begin{bmatrix} 1 & 1 \end{bmatrix}, \quad b = 1.
+\]
 
+W MATLAB zadanie zostało zaimplementowane w następujący sposób:
 
+```matlab
+function quadprog_TASK1
 
+% Dane problemu
+G = [2 0; 0 1];
+t = [-2; -1];
+Aeq = [1 1];
+beq = 1;
 
+% Opcje solvera
+options = optimoptions('quadprog', 'Display', 'off');
+
+% Rozwiązanie problemu
+[x_star, fval] = quadprog(G, t, [], [], Aeq, beq, [], [], [], options);
+
+% Wyświetlenie wyników
+disp('Rozwiązanie numeryczne (quadprog):');
+disp(x_star);
+disp('Wartość funkcji celu:');
+disp(fval);
+end
+```
 
 ### Wizualizacja problemu
 
