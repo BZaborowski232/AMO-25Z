@@ -505,6 +505,66 @@ Wykres poziomicowy ukazuje elipsy poziomic funkcji celu, prostą wynikającą z 
 
 Wszystkie zastosowane metody: analityczna metoda mnożników Lagrange’a, eliminacja zmiennych, eliminacja uogólniona oraz rozwiązanie numeryczne prowadzą do tego samego rozwiązania optymalnego. Pokazuje to spójność teorii programowania kwadratowego oraz poprawność implementacji poszczególnych podejść.
 
+## Wariant 2: dwa ograniczenia równościowe
 
+### Wybór danych liczbowych problemu
 
+Rozważane jest zadanie programowania kwadratowego w przestrzeni \(\mathbb{R}^2\) z funkcją celu postaci
+
+\[
+f(x) = \frac{1}{2} x^\top G x + t^\top x,
+\]
+
+gdzie macierz \(G \in \mathbb{R}^{2 \times 2}\) oraz wektor \(t \in \mathbb{R}^2\) dane są następująco:
+
+\[
+G =
+\begin{bmatrix}
+2 & 0 \\
+0 & 1
+\end{bmatrix},
+\qquad
+t =
+\begin{bmatrix}
+-2 \\
+-1
+\end{bmatrix}.
+\]
+
+Macierz \(G\) jest symetryczna oraz dodatnio określona, co gwarantuje istnienie jednoznacznego minimum funkcji celu.
+
+### Definicja funkcji celu i ograniczeń
+
+Zadanie optymalizacji rozważane jest przy dwóch liniowych ograniczeniach równościowych, które można zapisać w postaci macierzowej jako
+
+\[
+Ax = b,
+\]
+
+gdzie
+
+\[
+A =
+\begin{bmatrix}
+1 & 1 \\
+1 & -1
+\end{bmatrix},
+\qquad
+b =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}.
+\]
+
+Ograniczenia te odpowiadają układowi równań:
+
+\[
+\begin{cases}
+x_1 + x_2 = 1, \\
+x_1 - x_2 = 0.
+\end{cases}
+\]
+
+Macierz \(A\) ma pełny rząd, co oznacza, że zbiór rozwiązań dopuszczalnych składa się z dokładnie jednego punktu w przestrzeni \(\mathbb{R}^2\).
 
