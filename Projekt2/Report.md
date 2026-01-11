@@ -568,3 +568,4 @@ x_1 - x_2 = 0.
 
 Macierz \(A\) ma pełny rząd, co oznacza, że zbiór rozwiązań dopuszczalnych składa się z dokładnie jednego punktu w przestrzeni \(\mathbb{R}^2\).
 
+.
