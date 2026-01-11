@@ -1,10 +1,11 @@
 # Algorytmy i metody optymalizacji
 
-## Temat: Projekt nr 2
+## Projekt nr 2
 
 ### Bartosz Zaborowski 319996
 
 ## Zadanie 1: Programowanie kwadratowe z ograniczeniami równościowymi  
+
 ### Wariant 1: jedno ograniczenie równościowe
 
 Rozważany jest problem programowania kwadratowego z jedną liniową więzią równościową postaci
@@ -488,14 +489,22 @@ end
 
 ### Wizualizacja problemu
 
-W celu lepszego zobrazowania rozwiązania wykonano wizualizacje:
+Zgodnie z treścią zadania wykonano take wizualizacje:
 - powierzchni funkcji celu \(f(x_1,x_2)\),
 - wykresów poziomic funkcji celu,
 - prostej opisującej ograniczenie równościowe,
 - punktu optymalnego leżącego na zbiorze dopuszczalnym.
 
-Wizualizacje potwierdzają, że punkt optymalny odpowiada minimum funkcji celu ograniczonemu do prostej \(x_1 + x_2 = 1\).
+Wizualizacje zostały zapiane do pliku: /Visualisations/TASK1_Visualisations.png
+![Wizualizacja zadania 1](Visualisations/TASK1_Visualisations.png)
+
+Jak widzimy, wizualizacje potwierdzają, że punkt optymalny odpowiada minimum funkcji celu ograniczonemu do prostej \(x_1 + x_2 = 1\). Wykres trójwymiarowy przedstawia powierzchnię funkcji celu f(x) oraz punkt rozwiązania zadania z ograniczeniem równościowym.
+Wykres poziomicowy ukazuje elipsy poziomic funkcji celu, prostą wynikającą z ograniczenia \(x_1 + x_2 = 1\). oraz punkt optymalny, który odpowiada styczności poziomicy z prostą ograniczenia.
 
 ### Wnioski
 
 Wszystkie zastosowane metody: analityczna metoda mnożników Lagrange’a, eliminacja zmiennych, eliminacja uogólniona oraz rozwiązanie numeryczne prowadzą do tego samego rozwiązania optymalnego. Pokazuje to spójność teorii programowania kwadratowego oraz poprawność implementacji poszczególnych podejść.
+
+
+
+
