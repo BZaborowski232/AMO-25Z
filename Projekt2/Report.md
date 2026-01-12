@@ -1106,7 +1106,7 @@ Zgodnie z treścią zadania wykonano take wizualizacje:
 - punktu optymalnego leżącego na zbiorze dopuszczalnym.
 
 Wizualizacje zostały zapiane do pliku: /Visualisations/TASK1_Visualisations.png
-![Wizualizacja zadania 1](Visualisations/TASK2_Visualisations.png)
+![Wizualizacja zadania 1](Visualisations/TASK1_2_Visualisations.png)
 
 Jak widzimy, wizualizacje potwierdzają, że punkt optymalny odpowiada minimum funkcji celu przy jednoczesnym spełnieniu obu ograniczeń równościowych x1 + x2 = 1 oraz x1 - x2 = 0. Wykres trójwymiarowy przedstawia powierzchnię funkcji celu f(x) oraz punkt rozwiązania zadania z ograniczeniami.
 Wykres poziomicowy ukazuje elipsy poziomic funkcji celu, a przecięcie linii wynikających z ograniczeń wskazuje dopuszczalny obszar rozwiązań. Punkt optymalny znajduje się dokładnie w miejscu przecięcia tych linii, co wizualnie potwierdza spełnienie warunków ograniczeń i osiągnięcie minimum funkcji celu.
@@ -1329,3 +1329,15 @@ f(x^\ast) = -1.1667.
 
 Punkt \(x^\ast\) spełnia wszystkie ograniczenia nierównościowe zdefiniowane w zadaniu: \(x_1 + x_2 \le 1\), \(x_1 \ge 0\), \(x_2 \ge 0\).  
 Wartość funkcji celu odpowiada minimalnej wartości funkcji kwadratowej w obszarze dopuszczalnym zdefiniowanym przez ograniczenia nierównościowe. Porównując z wynikami uzyskanymi metodą ograniczeń aktywnych, widzimy pełną zgodność rozwiązań, co potwierdza poprawność implementacji obu metod.
+
+## Wizualizacja problemu
+
+Poniższe wykresy przedstawiają funkcję celu zadania 2 oraz obszar dopuszczalny wynikający z ograniczeń nierównościowych.
+
+- Wykres 3D pokazuje powierzchnię funkcji celu \(f(x)\) w przestrzeni \(\mathbb{R}^2\) oraz punkt optymalny \(x^\ast\).  
+- Wykres poziomicowy ukazuje linie poziomic funkcji celu, obszar dopuszczalny wyznaczony przez ograniczenia nierównościowe (zacieniowany obszar) oraz punkt optymalny.
+
+Wizualizacje zostały zapiane do pliku: /Visualisations/TASK1_Visualisations.png
+![Wizualizacja zadania 2](Visualisations/TASK2_Visualisations.png)
+
+Jak możemy zauważyć punkt \(x^\ast = [0.6667, 0.3333]\) leży na krawędzi dopuszczalnego obszaru, co jest typowe w zadaniach z ograniczeniami nierównościowymi. Wizualizacja poziomicowa pozwala zauważyć, że minimum funkcji kwadratowej ograniczone jest przez styczność poziomicy z granicą obszaru dopuszczalnego.
