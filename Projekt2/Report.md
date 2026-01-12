@@ -568,3 +568,185 @@ x_1 - x_2 = 0.
 
 Macierz \(A\) ma pełny rząd, co oznacza, że zbiór rozwiązań dopuszczalnych składa się z dokładnie jednego punktu w przestrzeni \(\mathbb{R}^2\).
 
+### (A) Rozwiązanie analityczne z wykorzystaniem mnożników Lagrange’a
+
+W celu analitycznego rozwiązania zadania z dwoma ograniczeniami równościowymi wprowadza się funkcję Lagrange’a postaci
+
+\[
+\mathcal{L}(x, \lambda) =
+\frac{1}{2} x^\top G x + t^\top x + \lambda^\top (Ax - b),
+\]
+
+gdzie \(x \in \mathbb{R}^2\) oraz \(\lambda \in \mathbb{R}^2\) jest wektorem mnożników Lagrange’a.
+
+Warunki konieczne optymalności (warunki KKT) przyjmują postać:
+
+\[
+\nabla_x \mathcal{L}(x, \lambda) = Gx + t + A^\top \lambda = 0,
+\]
+
+\[
+Ax = b.
+\]
+
+Po podstawieniu danych zadania otrzymujemy następujące równania.
+
+Warunek stacjonarności:
+
+\[
+Gx + t + A^\top \lambda = 0
+\]
+
+co po rozpisaniu daje układ równań skalarnych:
+
+\[
+2x_1 - 2 + \lambda_1 + \lambda_2 = 0
+\]
+
+\[
+x_2 - 1 + \lambda_1 - \lambda_2 = 0
+\]
+
+Ograniczenia równościowe mają postać:
+
+\[
+x_1 + x_2 = 1
+\]
+
+\[
+x_1 - x_2 = 0
+\]
+
+Powyższe równania można zebrać w postaci układu liniowego:
+
+\[
+\begin{cases}
+2x_1 + \lambda_1 + \lambda_2 = 2, \\
+x_2 + \lambda_1 - \lambda_2 = 1, \\
+x_1 + x_2 = 1, \\
+x_1 - x_2 = 0.
+\end{cases}
+\]
+
+Rozwiązanie tego układu prowadzi do jednoznacznego punktu optymalnego.
+
+Rozwiązujemy więc układ równań:
+
+\[
+\begin{cases}
+2x_1 + \lambda_1 + \lambda_2 = 2, \\
+x_2 + \lambda_1 - \lambda_2 = 1, \\
+x_1 + x_2 = 1, \\
+x_1 - x_2 = 0.
+\end{cases}
+\]
+
+Z ostatniego równania wynika bezpośrednio:
+
+\[
+x_1 = x_2.
+\]
+
+Podstawiając do trzeciego równania otrzymujemy:
+
+\[
+x_1 + x_1 = 1 \quad \Rightarrow \quad 2x_1 = 1
+\]
+
+\[
+x_1 = \frac{1}{2}.
+\]
+
+Stąd:
+
+\[
+x_2 = \frac{1}{2}.
+\]
+
+Podstawiamy wyznaczone wartości zmiennych decyzyjnych do pierwszych dwóch równań:
+
+Pierwsze równanie:
+
+\[
+2 \cdot \frac{1}{2} + \lambda_1 + \lambda_2 = 2
+\]
+
+\[
+1 + \lambda_1 + \lambda_2 = 2
+\]
+
+\[
+\lambda_1 + \lambda_2 = 1.
+\]
+
+Drugie równanie:
+
+\[
+\frac{1}{2} + \lambda_1 - \lambda_2 = 1
+\]
+
+\[
+\lambda_1 - \lambda_2 = \frac{1}{2}.
+\]
+
+Otrzymujemy układ równań liniowych względem mnożników Lagrange’a:
+
+\[
+\begin{cases}
+\lambda_1 + \lambda_2 = 1, \\
+\lambda_1 - \lambda_2 = \frac{1}{2}.
+\end{cases}
+\]
+
+Dodając oba równania stronami:
+
+\[
+2\lambda_1 = \frac{3}{2}
+\]
+
+\[
+\lambda_1 = \frac{3}{4}.
+\]
+
+Podstawiając do pierwszego równania:
+
+\[
+\lambda_2 = 1 - \frac{3}{4} = \frac{1}{4}.
+\]
+
+Ostatecznie otrzymujemy:
+
+\[
+x^\ast =
+\begin{bmatrix}
+\frac{1}{2} \\
+\frac{1}{2}
+\end{bmatrix},
+\quad
+\lambda^\ast =
+\begin{bmatrix}
+\frac{3}{4} \\
+\frac{1}{4}
+\end{bmatrix}.
+\]
+
+
+
+Po rozwiązaniu powyższego układu równań otrzymujemy jako odpowieź następujące rozwiązanie:
+
+\[
+x^\ast =
+\begin{bmatrix}
+\frac{1}{2} \\
+\frac{1}{2}
+\end{bmatrix},
+\qquad
+\lambda^\ast =
+\begin{bmatrix}
+\frac{3}{2} \\
+\frac{1}{2}
+\end{bmatrix}.
+\]
+
+Otrzymany punkt spełnia oba ograniczenia równościowe oraz warunek stacjonarności, a ze względu na dodatnią określoność macierzy \(G\) stanowi globalne minimum rozważanego zadania.
+
