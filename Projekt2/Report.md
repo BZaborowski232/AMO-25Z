@@ -486,6 +486,33 @@ disp('Wartość funkcji celu:');
 disp(fval);
 end
 ```
+Rozwiązanie uzyskane z wykorzystaniem solvera `quadprog` wskazuje, że punkt optymalny zadania programowania kwadratowego z jednym ograniczeniem równościowym ma postać
+
+\[
+x^\ast =
+\begin{bmatrix}
+0.6667 \\
+0.3333
+\end{bmatrix},
+\]
+
+co jest zgodne (z dokładnością numeryczną) z rozwiązaniem analitycznym
+\(
+x^\ast = \begin{bmatrix} \frac{2}{3} \\ \frac{1}{3} \end{bmatrix}
+\)
+wyznaczonym metodą mnożników Lagrange’a oraz metodami eliminacyjnymi.
+
+Wartość funkcji celu w punkcie optymalnym wynosi
+
+\[
+f(x^\ast) = -1.1667,
+\]
+
+co oznacza minimalną możliwą wartość funkcji kwadratowej przy spełnieniu ograniczenia
+\(x_1 + x_2 = 1\).
+
+Zgodność wyników uzyskanych metodą numeryczną z rezultatami analitycznymi potwierdza poprawność sformułowania problemu, implementacji solvera oraz przeprowadzonych obliczeń teoretycznych.
+
 
 ### Wizualizacja problemu
 
