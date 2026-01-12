@@ -1341,3 +1341,162 @@ Wizualizacje zostały zapiane do pliku: /Visualisations/TASK1_Visualisations.png
 ![Wizualizacja zadania 2](Visualisations/TASK2_Visualisations.png)
 
 Jak możemy zauważyć punkt \(x^\ast = [0.6667, 0.3333]\) leży na krawędzi dopuszczalnego obszaru, co jest typowe w zadaniach z ograniczeniami nierównościowymi. Wizualizacja poziomicowa pozwala zauważyć, że minimum funkcji kwadratowej ograniczone jest przez styczność poziomicy z granicą obszaru dopuszczalnego.
+
+## Zadanie 3: Przykładowy problem QP z trzema zmiennymi
+
+### (A) Opis problemu
+
+Rozważmy prosty problem ekonomiczny: firma produkuje trzy produkty \(P_1, P_2, P_3\).  
+Zmienne decyzyjne reprezentują ilość produkcji tych produktów:  
+
+\[
+x = 
+\begin{bmatrix}
+x_1 \\ x_2 \\ x_3
+\end{bmatrix}, 
+\]
+gdzie \(x_1, x_2, x_3\) to ilości produktów \(P_1, P_2, P_3\) do wyprodukowania.  
+
+Celem optymalizacji jest minimalizacja kosztów produkcji, przy czym koszty mogą mieć charakter kwadratowy (np. rosnące koszty marginalne).  
+Ograniczenia obejmują:  
+- ograniczenie równościowe: suma produkcji musi wynosić określoną wartość \(B\) (np. zapotrzebowanie rynku),  
+- ograniczenia nierównościowe: minimalne i maksymalne moce produkcyjne każdego produktu.  
+
+### (B) Model QP
+
+Funkcja celu:
+
+\[
+f(x) = \frac{1}{2} x^\top G x + t^\top x
+\]
+
+Ograniczenia:
+
+\[
+A_{eq} x = b_{eq}, \quad A_{ineq} x \le b_{ineq}.
+\]
+
+### (C) Macierze i wektory
+
+Przyjmijmy dane liczbowe w postaci macierzy:
+
+**Macierz kwadratowa kosztów (koszty rosnące marginalnie):**
+
+\[
+G = 
+\begin{bmatrix}
+2 & 0.5 & 0 \\
+0.5 & 1.5 & 0.2 \\
+0 & 0.2 & 1
+\end{bmatrix}
+\]
+
+**Wektor kosztów liniowych (stałe koszty):**
+
+\[
+t =
+\begin{bmatrix}
+1 \\
+0.5 \\
+0.8
+\end{bmatrix}
+\]
+
+**Ograniczenie równościowe (suma produkcji = 100 jednostek):**
+
+\[
+A_{eq} =
+\begin{bmatrix}
+1 & 1 & 1
+\end{bmatrix}, 
+\quad
+b_{eq} =
+\begin{bmatrix}
+100
+\end{bmatrix}
+\]
+
+**Ograniczenia nierównościowe (min i max produkcji każdego produktu):**
+
+\[
+A_{ineq} =
+\begin{bmatrix}
+-1 & 0 & 0 \\
+0 & -1 & 0 \\
+0 & 0 & -1 \\
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{bmatrix}, 
+\quad
+b_{ineq} =
+\begin{bmatrix}
+-10 \\ -5 \\ -8 \\ 50 \\ 40 \\ 60
+\end{bmatrix}
+\]
+
+**Interpretacja:**  
+- Pierwsze trzy wiersze \(A_{ineq} x \le b_{ineq}\) odpowiadają ograniczeniom minimalnym: \(x_1 \ge 10\), \(x_2 \ge 5\), \(x_3 \ge 8\).  
+- Kolejne trzy wiersze odpowiadają ograniczeniom maksymalnym: \(x_1 \le 50\), \(x_2 \le 40\), \(x_3 \le 60\).  
+- \(G\) i \(t\) definiują koszty produkcji: \(G\) odpowiada kosztom kwadratowym (rosnące koszty marginalne), \(t\) kosztom liniowym.
+
+### (D) Rozwiązanie numeryczne zadania QP
+Rozwiąznie zaimplementowani w śworowisku MATLAB. Do rozwiązania zadania wybrany został solver `quadprog`.
+
+```
+% Dane
+G = [2 0.5 0; 0.5 1.5 0.2; 0 0.2 1];
+t = [1; 0.5; 0.8];
+
+Aeq = [1 1 1];
+beq = 100;
+
+Aineq = [-1 0 0; 0 -1 0; 0 0 -1; 1 0 0; 0 1 0; 0 0 1];
+bineq = [-10; -5; -8; 50; 40; 60];
+
+options = optimoptions('quadprog','Display','off');
+
+[x_star, fval] = quadprog(G, t, Aineq, bineq, Aeq, beq, [], [], [], options);
+
+disp('Rozwiązanie optymalne:');
+disp(x_star);
+disp('Wartość funkcji celu:');
+disp(fval);
+```
+
+Solver dla wybranego przeze mnie przykładowego problemu decyzyjnego zwrócił następujące wyniki:
+
+```
+Rozwiązanie optymalne:
+   22.8178
+   24.1128
+   53.0694
+
+Wartość funkcji celu:
+   2.9733e+03
+```
+
+Stąd wynika, że:
+- **Wektor optymalny zmiennych decyzyjnych:**
+
+\[
+x^\ast =
+\begin{bmatrix}
+x_1 \\ x_2 \\ x_3
+\end{bmatrix} =
+\begin{bmatrix}
+22.82 \\ 24.11 \\ 53.07
+\end{bmatrix}
+\]
+
+- **Wartość funkcji celu:**
+
+\[
+f(x^\ast) = 2973.3
+\]
+
+
+Jak możemy zauważyc punkt optymalny pokazuje, jak rozdzielona powinna być produkcja trzech linii/urządzeń, aby minimalizować łączny koszt określony przez funkcję kwadratową \(f(x) = \frac{1}{2} x^\top G x + t^\top x\). Wszystkie ograniczenia są zdecydowanie spełnione:
+  - Suma produkcji \(x_1 + x_2 + x_3 = 100\) jednostek.  
+  - Produkcja każdej linii mieści się w wyznaczonych granicach minimalnych i maksymalnych: \(10 \le x_1 \le 50\), \(5 \le x_2 \le 40\), \(8 \le x_3 \le 60\).  
+W praktyce oznacza to, że linia 3 pracuje blisko swojego maksymalnego limitu, linia 2 nieco ponad połowę dopuszczalnego maksimum, a linia 1 jest uruchomiona powyżej minimum, ale poniżej maksimum. Jeżeli chodzi o ograniczenia aktywne w tym punkcie to głównie górne i dolne limity produkcji poszczególnych linii, co wskazuje nam, które zasoby są wąskim gardłem w systemie produkcyjnym.
