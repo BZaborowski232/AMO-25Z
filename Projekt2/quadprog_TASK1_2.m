@@ -1,4 +1,4 @@
-function quadprog_TASK2
+function quadprog_TASK1_2
 % quadprog_TASK2 - rozwiązanie numeryczne zadania QP z dwoma ograniczeniami
 
 % Dane problemu
