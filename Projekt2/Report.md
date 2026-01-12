@@ -159,15 +159,15 @@ x_1 + x_2 = 1.
 
 Rozwiązanie powyższego układu pozwala wyznaczyć punkt optymalny spełniający zarówno warunek stacjonarności, jak i ograniczenie równościowe.
 
-### Rozwiązanie układu równań
+#### Rozwiązanie układu równań
 
-1. Z trzeciego równania: \(x_2 = 1 - x_1\).  
-2. Podstawiamy do drugiego: \(x_2 + \lambda = 1 \implies (1 - x_1) + \lambda = 1 \implies \lambda = x_1\).  
-3. Podstawiamy \(\lambda = x_1\) do pierwszego równania: \(2x_1 + x_1 = 2 \implies 3x_1 = 2 \implies x_1 = \frac{2}{3}\).  
-4. Wówczas \(x_2 = 1 - \frac{2}{3} = \frac{1}{3}\), \(\lambda = x_1 = \frac{2}{3}\).
+ \(x_2 = 1 - x_1\).  
+\(x_2 + \lambda = 1 \implies (1 - x_1) + \lambda = 1 \implies \lambda = x_1\).  
+\(\lambda = x_1\) do pierwszego równania: \(2x_1 + x_1 = 2 \implies 3x_1 = 2 \implies x_1 = \frac{2}{3}\).  
+\(x_2 = 1 - \frac{2}{3} = \frac{1}{3}\), \(\lambda = x_1 = \frac{2}{3}\).
 
 
-### Punkt optymalny i wartość funkcji celu
+#### Punkt optymalny i wartość funkcji celu
 
 Punkt optymalny i mnożnik Lagrange’a:
 
@@ -230,8 +230,6 @@ t^\top x^\ast =
 f(x^\ast) = \frac{1}{2} (x^\ast)^\top G x^\ast + t^\top x^\ast = 0.5 - 1.6667 = -1.1667
 \]
 
-
-**Podsumowanie:**
 - **Punkt optymalny:** \(x^\ast = \begin{bmatrix}2/3 \\ 1/3\end{bmatrix}\)  
 - **Wartość funkcji celu:** \(f(x^\ast) = -1.1667\)  
 - **Mnożnik Lagrange’a:** \(\lambda^\ast = 2/3\)
@@ -339,14 +337,10 @@ Wartość funkcji celu w punkcie optymalnym:
 f(x^\star) = \phi(x_1^\star) = -1.1667.
 \]
 
-
-**Podsumowanie:**
 - \(x^\star = \begin{bmatrix} 2/3 \\ 1/3 \end{bmatrix}\)  
 - \(f(x^\star) = -1.1667\)
 
 
-
-TODO
 ### (C) Metoda eliminacji uogólnionej z wykorzystaniem jądra macierzy \(A\)
 
 Macierz ograniczeń ma postać
@@ -777,7 +771,7 @@ x^\ast =
 
 Otrzymany punkt spełnia oba ograniczenia równościowe oraz warunek stacjonarności, a ze względu na dodatnią określoność macierzy \(G\) stanowi globalne minimum rozważanego zadania.
 
-### Wartość funkcji celu w punkcie optymalnym
+#### Wartość funkcji celu w punkcie optymalnym
 
 Z poprzednich obliczeń otrzymano punkt optymalny:
 
@@ -949,3 +943,98 @@ f(x^\ast) =
 \end{bmatrix}
 = -1.125.
 \]
+
+### (C) Metoda eliminacji uogólnionej z wykorzystaniem jądra macierzy \(A\)
+
+Dla zadania z dwoma ograniczeniami równościowymi
+
+\[
+A =
+\begin{bmatrix}
+1 & 1 \\
+1 & -1
+\end{bmatrix}, \quad
+b =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+\]
+
+jądro macierzy \(A\) jest jednowymiarowe i rozpięte przez wektor
+
+\[
+z =
+\begin{bmatrix}
+1 \\
+-1
+\end{bmatrix}, \quad \text{dla którego } Az = 0.
+\]
+
+Jako punkt szczególny spełniający ograniczenie \(Ax = b\) możemy przyjąć:
+
+\[
+x_p =
+\begin{bmatrix}
+1/2 \\
+1/2
+\end{bmatrix}, \quad \text{ponieważ } Ax_p = b.
+\]
+
+Każde dopuszczalne rozwiązanie można zapisać w postaci:
+
+\[
+x = x_p + z \alpha =
+\begin{bmatrix}
+1/2 + \alpha \\
+1/2 - \alpha
+\end{bmatrix}, \quad \alpha \in \mathbb{R}.
+\]
+
+Podstawiając tę postać do funkcji celu
+
+\[
+f(x) = \frac{1}{2} x^\top G x + t^\top x,
+\]
+
+otrzymujemy funkcję jednowymiarową względem \(\alpha\):
+
+\[
+\begin{aligned}
+\phi(\alpha) &= \frac{1}{2} 
+\begin{bmatrix} 1/2 + \alpha \\ 1/2 - \alpha \end{bmatrix}^\top
+\begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}
+\begin{bmatrix} 1/2 + \alpha \\ 1/2 - \alpha \end{bmatrix}
++ 
+\begin{bmatrix}-2 & -1\end{bmatrix} 
+\begin{bmatrix} 1/2 + \alpha \\ 1/2 - \alpha \end{bmatrix} \\
+&= \frac{1}{2} \left( 2(1/2 + \alpha)^2 + (1/2 - \alpha)^2 \right) -2(1/2 + \alpha) - (1/2 - \alpha) \\
+&= \frac{3}{2} \alpha^2 - 1.
+\end{aligned}
+\]
+
+Warunek konieczny minimum:
+
+\[
+\frac{d\phi}{d\alpha} = 3 \alpha = 0 \quad \Rightarrow \quad \alpha^\ast = 0.
+\]
+
+Podstawiając do ogólnej postaci rozwiązania otrzymujemy punkt optymalny:
+
+\[
+x^\ast = x_p + z \alpha^\ast =
+\begin{bmatrix}
+1/2 \\
+1/2
+\end{bmatrix}.
+\]
+
+Wartość funkcji celu w punkcie optymalnym:
+
+\[
+f(x^\ast) = \phi(0) = -1.125.
+\]
+
+- **Punkt optymalny:** \(x^\ast = \begin{bmatrix} 1/2 \\ 1/2 \end{bmatrix}\)  
+- **Wartość funkcji celu:** \(f(x^\ast) = -1.125\)
+
