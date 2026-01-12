@@ -1282,3 +1282,50 @@ optymalny w zbiorze dopuszczalnym dla ograniczeń nierównościowych.
 
 
 ### (B) Rozwiązanie przy pomocy solvera `quadprog`
+
+### (B) Rozwiązanie przy pomocy solvera `quadprog`
+
+Dla porównania rozwiązano zadanie programowania kwadratowego z ograniczeniami nierównościowymi
+z wykorzystaniem wbudowanego solvera `quadprog` w MATLAB. Wykorzystano ograniczenia nierównościowe
+w postaci \(Ax \le b\). Solver znalazł punkt optymalny spełniający wszystkie warunki nierównościowe,
+co pozwala na weryfikację poprawności naszej implementacji metody ograniczeń aktywnych.
+
+```matlab
+% Dane problemu
+G = [2 0; 0 1];
+t = [-2; -1];
+A = [1 1; -1 0; 0 -1]; % przykładowe nierówności: x1 + x2 <= 1, x1 >= 0, x2 >= 0
+b = [1; 0; 0];
+
+% Opcje solvera
+options = optimoptions('quadprog', 'Display', 'off');
+
+% Rozwiązanie problemu
+[x_star, fval] = quadprog(G, t, A, b, [], [], [], [], [], options);
+
+% Wyświetlenie wyników
+disp('Rozwiązanie numeryczne (quadprog):');
+disp(x_star);
+disp('Wartość funkcji celu:');
+disp(fval);
+```
+
+Otrzymane rozwiązanie numeryczne za pomocą solvera `quadprog` daje punkt optymalny
+
+\[
+x^\ast =
+\begin{bmatrix}
+0.6667 \\
+0.3333
+\end{bmatrix},
+\]
+
+a wartość funkcji celu w tym punkcie wynosi
+
+\[
+f(x^\ast) = -1.1667.
+\]
+
+
+Punkt \(x^\ast\) spełnia wszystkie ograniczenia nierównościowe zdefiniowane w zadaniu: \(x_1 + x_2 \le 1\), \(x_1 \ge 0\), \(x_2 \ge 0\).  
+Wartość funkcji celu odpowiada minimalnej wartości funkcji kwadratowej w obszarze dopuszczalnym zdefiniowanym przez ograniczenia nierównościowe. Porównując z wynikami uzyskanymi metodą ograniczeń aktywnych, widzimy pełną zgodność rozwiązań, co potwierdza poprawność implementacji obu metod.
