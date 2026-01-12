@@ -750,3 +750,175 @@ x^\ast =
 
 Otrzymany punkt spełnia oba ograniczenia równościowe oraz warunek stacjonarności, a ze względu na dodatnią określoność macierzy \(G\) stanowi globalne minimum rozważanego zadania.
 
+### Wartość funkcji celu w punkcie optymalnym
+
+Z poprzednich obliczeń otrzymano punkt optymalny:
+
+\[
+x^\ast =
+\begin{bmatrix}
+\frac{1}{2} \\
+\frac{1}{2}
+\end{bmatrix}.
+\]
+
+Najpierw obliczamy iloczyn \(G x^\ast\).
+
+\[
+G =
+\begin{bmatrix}
+2 & 0 \\
+0 & 1
+\end{bmatrix}
+\]
+
+\[
+x^\ast =
+\begin{bmatrix}
+\frac{1}{2} \\
+\frac{1}{2}
+\end{bmatrix}
+\]
+
+\[
+G x^\ast =
+\begin{bmatrix}
+1 \\
+\frac{1}{2}
+\end{bmatrix}
+\]
+
+Następnie obliczamy iloczyn skalarny \((x^\ast)^\top G x^\ast\).
+
+\[
+(x^\ast)^\top =
+\begin{bmatrix}
+\frac{1}{2} & \frac{1}{2}
+\end{bmatrix}
+\]
+
+\[
+(x^\ast)^\top G x^\ast =
+\frac{1}{2} \cdot 1 + \frac{1}{2} \cdot \frac{1}{2}
+\]
+
+\[
+(x^\ast)^\top G x^\ast =
+\frac{3}{4}
+\]
+Stąd:
+
+\[
+\frac{1}{2} (x^\ast)^\top G x^\ast = \frac{3}{8}.
+\]
+
+Obliczamy składnik liniowy funkcji celu.
+
+\[
+t^\top =
+\begin{bmatrix}
+-2 & -1
+\end{bmatrix}
+\]
+
+\[
+x^\ast =
+\begin{bmatrix}
+\frac{1}{2} \\
+\frac{1}{2}
+\end{bmatrix}
+\]
+
+\[
+t^\top x^\ast =
+-2 \cdot \frac{1}{2} + (-1) \cdot \frac{1}{2}
+\]
+
+\[
+t^\top x^\ast =
+-1 - \frac{1}{2}
+\]
+
+\[
+t^\top x^\ast =
+-\frac{3}{2}
+\]
+Ostatecznie wartość funkcji celu w punkcie optymalnym wynosi:
+
+\[
+f(x^\ast) = \frac{3}{8} - \frac{3}{2} = -\frac{9}{8} = -1.125.
+\]
+
+
+
+### (B) Rozwiązanie metodą eliminacji zmiennych
+
+W wariancie z dwoma ograniczeniami równościowymi zbiór dopuszczalny jest jednoelementowy.
+Ograniczenia mają postać:
+
+\[
+\begin{cases}
+x_1 + x_2 = 1, \\
+x_1 - x_2 = 0.
+\end{cases}
+\]
+
+Z drugiego równania wynika bezpośrednio:
+
+\[
+x_1 = x_2.
+\]
+
+Podstawiając do pierwszego ograniczenia otrzymujemy:
+
+\[
+x_1 + x_1 = 1 \quad \Rightarrow \quad 2x_1 = 1
+\]
+
+\[
+x_1 = \frac{1}{2}.
+\]
+
+Stąd:
+
+\[
+x_2 = \frac{1}{2}.
+\]
+
+Ponieważ oba ograniczenia jednoznacznie wyznaczają punkt dopuszczalny, nie zachodzi potrzeba
+minimalizacji funkcji jednowymiarowej. Rozwiązanie jest jedyne i automatycznie spełnia warunki
+optymalności.
+
+Ostatecznie otrzymujemy punkt:
+
+\[
+x^\ast =
+\begin{bmatrix}
+\frac{1}{2} \\
+\frac{1}{2}
+\end{bmatrix}.
+\]
+
+Wartość funkcji celu w tym punkcie wynosi:
+
+\[
+f(x^\ast) =
+\frac{1}{2}
+\begin{bmatrix}
+\frac{1}{2} & \frac{1}{2}
+\end{bmatrix}
+\begin{bmatrix}
+2 & 0 \\ 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+\frac{1}{2} \\ \frac{1}{2}
+\end{bmatrix}
++
+\begin{bmatrix}
+-2 & -1
+\end{bmatrix}
+\begin{bmatrix}
+\frac{1}{2} \\ \frac{1}{2}
+\end{bmatrix}
+= -1.125.
+\]
