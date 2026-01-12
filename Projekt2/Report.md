@@ -1038,3 +1038,93 @@ f(x^\ast) = \phi(0) = -1.125.
 - **Punkt optymalny:** \(x^\ast = \begin{bmatrix} 1/2 \\ 1/2 \end{bmatrix}\)  
 - **Wartość funkcji celu:** \(f(x^\ast) = -1.125\)
 
+### (D) Rozwiązanie numeryczne z wykorzystaniem solvera `quadprog`
+
+Dla porównania, zadanie zostało rozwiązane również numerycznie z wykorzystaniem wbudowanego solvera `quadprog` w MATLABie, przy uwzględnieniu dwóch ograniczeń równościowych:
+
+\[
+A =
+\begin{bmatrix}
+1 & 1 \\
+1 & -1
+\end{bmatrix},
+\quad
+b =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}.
+\]
+
+Rozwiązanie numeryczne uzyskano następującym kodem MATLAB:
+
+```matlab
+function quadprog_TASK2
+% quadprog_TASK2 - rozwiązanie numeryczne zadania QP z dwoma ograniczeniami
+
+% Dane problemu
+G = [2 0; 0 1];
+t = [-2; -1];
+Aeq = [1 1; 1 -1];
+beq = [1; 0];
+
+% Opcje solvera
+options = optimoptions('quadprog', 'Display', 'off');
+
+% Rozwiązanie problemu
+[x_star, fval] = quadprog(G, t, [], [], Aeq, beq, [], [], [], options);
+
+% Wyświetlenie wyników
+disp('Rozwiązanie numeryczne (quadprog):');
+disp(x_star);
+disp('Wartość funkcji celu:');
+disp(fval);
+end
+```
+Otrzymane rozwiązanie numeryczne dla wariantu z dwoma ograniczeniami równościowymi przedstawia się następująco:
+
+```
+Rozwiązanie numeryczne (quadprog):
+    0.5000
+    0.5000
+
+Wartość funkcji celu:
+   -1.1250
+```
+
+Interpretacja wyników:
+- **Punkt optymalny:** \(x^\ast = [0.5, 0.5]\). Oznacza to, że minimalna wartość funkcji celu jest osiągana, gdy obie zmienne decyzyjne są równe 0.5.  
+- **Wartość funkcji celu:** \(f(x^\ast) = -1.125\), co jest zgodne z wynikami uzyskanymi metodami analitycznymi oraz metodą eliminacji zmiennych i metodą jądra macierzy \(A\).  
+- **Wnioski:** Wynik potwierdza poprawność przeprowadzonych obliczeń i zgodność wszystkich zastosowanych metod optymalizacji. Minimalizacja funkcji kwadratowej z dwoma liniowymi ograniczeniami równościowymi prowadzi do symetrycznego rozwiązania w tym przypadku, co jest intuicyjne biorąc pod uwagę symetrię ograniczeń.
+
+### Wizualizacja problemu
+
+Zgodnie z treścią zadania wykonano take wizualizacje:
+- powierzchni funkcji celu \(f(x_1,x_2)\),
+- wykresów poziomic funkcji celu,
+- prostej opisującej ograniczenie równościowe,
+- punktu optymalnego leżącego na zbiorze dopuszczalnym.
+
+Wizualizacje zostały zapiane do pliku: /Visualisations/TASK1_Visualisations.png
+![Wizualizacja zadania 1](Visualisations/TASK2_Visualisations.png)
+
+Jak widzimy, wizualizacje potwierdzają, że punkt optymalny odpowiada minimum funkcji celu przy jednoczesnym spełnieniu obu ograniczeń równościowych x1 + x2 = 1 oraz x1 - x2 = 0. Wykres trójwymiarowy przedstawia powierzchnię funkcji celu f(x) oraz punkt rozwiązania zadania z ograniczeniami.
+Wykres poziomicowy ukazuje elipsy poziomic funkcji celu, a przecięcie linii wynikających z ograniczeń wskazuje dopuszczalny obszar rozwiązań. Punkt optymalny znajduje się dokładnie w miejscu przecięcia tych linii, co wizualnie potwierdza spełnienie warunków ograniczeń i osiągnięcie minimum funkcji celu.
+
+
+
+### Zadanie 1 - Wnioski całościowe
+
+We wszystkich rozważonych wariantach zadania (jedno i dwa ograniczenia równościowe) uzyskano spójne wyniki przy zastosowaniu różnych metod optymalizacji: analitycznego wyznaczenia punktu stacjonarnego z wykorzystaniem mnożników Lagrange’a, metody eliminacji zmiennych, metody eliminacji uogólnionej z wykorzystaniem jądra macierzy ograniczeń oraz solvera numerycznego `quadprog`.  
+
+Dla wariantu z jednym ograniczeniem równościowym wszystkie metody prowadzą do punktu optymalnego \(x^\ast = [2/3, 1/3]\) z wartością funkcji celu \(f(x^\ast) = -1.1667\). Rozwiązanie to spełnia warunek równościowy \(x_1 + x_2 = 1\) i odpowiada intuicyjnej interpretacji geometrycznej, minimum funkcji kwadratowej na prostej ograniczenia.  
+
+Dla wariantu z dwoma ograniczeniami równościowymi, bardziej ograniczającym przestrzeń dopuszczalnych rozwiązań, wszystkie metody doprowadziły do punktu optymalnego \(x^\ast = [0.5, 0.5]\) z wartością funkcji celu \(f(x^\ast) = -1.125\). Symetryczne rozmieszczenie zmiennych wynika bezpośrednio z symetrii przyjętych ograniczeń.  
+
+Wyniki te pokazują, że:  
+- Różne metody analityczne i numeryczne dają spójne rozwiązania w zadaniach wypukłych;  
+- Wprowadzenie większej liczby ograniczeń równościowych zmienia położenie minimum funkcji, zmniejszając przestrzeń dopuszczalną;  
+- Solver `quadprog` w MATLAB umożliwia szybkie i poprawne wyznaczenie punktu optymalnego nawet przy większej liczbie ograniczeń;  
+- Wizualizacja funkcji celu oraz ograniczeń w przestrzeni \(\mathbb{R}^2\) pozwala łatwo zweryfikować zgodność rozwiązań i intuicyjnie ocenić położenie minimum względem prostych ograniczeń.  
+
+Podsumowując, zadanie potwierdza poprawność stosowanych metod optymalizacji kwadratowej z liniowymi ograniczeniami równościowymi oraz pokazuje, że rozwiązania analityczne i numeryczne są ze sobą zgodne.
