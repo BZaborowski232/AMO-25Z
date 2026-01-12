@@ -6,7 +6,7 @@
 
 ## Zadanie 1: Programowanie kwadratowe z ograniczeniami równościowymi  
 
-### Wariant 1: jedno ograniczenie równościowe
+## Wariant 1: jedno ograniczenie równościowe
 
 Rozważany jest problem programowania kwadratowego z jedną liniową więzią równościową postaci
 
@@ -1128,3 +1128,157 @@ Wyniki te pokazują, że:
 - Wizualizacja funkcji celu oraz ograniczeń w przestrzeni \(\mathbb{R}^2\) pozwala łatwo zweryfikować zgodność rozwiązań i intuicyjnie ocenić położenie minimum względem prostych ograniczeń.  
 
 Podsumowując, zadanie potwierdza poprawność stosowanych metod optymalizacji kwadratowej z liniowymi ograniczeniami równościowymi oraz pokazuje, że rozwiązania analityczne i numeryczne są ze sobą zgodne.
+
+## Zadanie 2: Programowanie kwadratowe z ograniczeniami nierównościowymi
+
+### Wybór danych liczbowych problemu
+
+W zadaniu rozważane jest programowanie kwadratowe w przestrzeni dwuwymiarowej.
+Przyjęto następujące dane liczbowe problemu:
+
+\[
+G =
+\begin{bmatrix}
+2 & 0 \\
+0 & 1
+\end{bmatrix},
+\quad
+t =
+\begin{bmatrix}
+-2 \\
+-1
+\end{bmatrix}.
+\]
+
+Macierz \(G\) jest symetryczna i dodatnio określona, co gwarantuje wypukłość
+funkcji celu oraz istnienie jednoznacznego minimum globalnego.
+
+Jako zbiór ograniczeń nierównościowych przyjęto:
+
+\[
+A =
+\begin{bmatrix}
+1 & 1 \\
+-1 & 0 \\
+0 & -1
+\end{bmatrix},
+\quad
+b =
+\begin{bmatrix}
+1 \\
+0 \\
+0
+\end{bmatrix}.
+\]
+
+Powyższe ograniczenia definiują obszar dopuszczalny w postaci trójkąta
+w przestrzeni \(\mathbb{R}^2\).
+
+### Definicja funkcji celu i ograniczeń
+
+Rozważane zadanie optymalizacji ma postać:
+
+\[
+\min_{x \in \mathbb{R}^2}
+\quad
+f(x) = \frac{1}{2} x^\top G x + t^\top x,
+\]
+
+przy ograniczeniach nierównościowych:
+
+\[
+Ax \le b.
+\]
+
+Oznacza to następujący układ nierówności:
+
+\[
+\begin{cases}
+x_1 + x_2 \le 1, \\
+x_1 \ge 0, \\
+x_2 \ge 0.
+\end{cases}
+\]
+
+Funkcja celu jest wypukłą elipsoidalną paraboloidą, natomiast zbiór dopuszczalny
+stanowi wypukły wielokąt w postaci trójkąta w pierwszej ćwiartce układu
+współrzędnych.
+
+Celem zadania jest znalezienie punktu \(x^\ast\) należącego do tego obszaru,
+dla którego wartość funkcji celu jest minimalna.
+
+### (A) Rozwiązanie metodą ograniczeń aktywnych
+
+Metoda ograniczeń aktywnych polega na iteracyjnym rozwiązywaniu problemu
+przyjmując tymczasowo pewną podgrupę ograniczeń jako aktywne (równania), a następnie
+aktualizowaniu zestawu ograniczeń aktywnych do momentu znalezienia punktu spełniającego
+warunki KKT dla całego zbioru ograniczeń nierównościowych.
+
+#### Identyfikacja ograniczeń aktywnych
+Na starcie przyjmujemy, że ograniczenia aktywne to te, które w punkcie startowym
+spełniają się jako równości. Przyjmijmy punkt początkowy w wnętrzu obszaru dopuszczalnego jako przykladowo:
+
+\[
+x^{(0)} = 
+\begin{bmatrix}
+0.5 \\ 0.25
+\end{bmatrix}.
+\]
+
+Dla tego punktu ograniczenia aktywne to:
+
+\[
+x_1 + x_2 \le 1 \quad \text{(nierówność aktywna, bo } 0.5 + 0.25 < 1\text{)},
+\]
+\[
+x_1 \ge 0, \quad x_2 \ge 0 \quad \text{(nieaktywne w punkcie startowym)}.
+\]
+
+#### Rozwiązanie problemu przy ograniczeniach aktywnych jako równaniach
+Tymczasowo traktujemy nierówności jako równania:
+
+\[
+x_1 + x_2 = 1
+\]
+
+i rozwiązujemy problem kwadratowy z jednym ograniczeniem równościowym
+(np. metodą mnożników Lagrange’a lub eliminacji zmiennych).
+
+Rozwiązanie pod tym ograniczeniem:
+
+\[
+x^\ast = 
+\begin{bmatrix}
+0.6667 \\ 0.3333
+\end{bmatrix}.
+\]
+
+#### Sprawdzenie pozostałych ograniczeń
+Sprawdzamy, czy pozostałe ograniczenia nierównościowe są spełnione:
+
+\[
+x_1 = 0.6667 \ge 0, \quad x_2 = 0.3333 \ge 0
+\]
+
+Wszystkie ograniczenia zostały spełnione jak widzimy spełnione. Ponieważ ograniczenia nieaktywne są spełnione, punkt jest kandydatem na minimum globalne w zbiorze dopuszczalnym.
+
+#### Obliczenie wartości funkcji celu
+Obliczamy funkcję celu w punkcie optymalnym:
+
+\[
+f(x^\ast) = \frac{1}{2} (x^\ast)^\top G x^\ast + t^\top x^\ast
+= \frac{1}{2} \begin{bmatrix}0.6667 & 0.3333\end{bmatrix} 
+\begin{bmatrix}1.3334 \\ 0.3333\end{bmatrix} + \begin{bmatrix}-2 & -1\end{bmatrix} \begin{bmatrix}0.6667 \\ 0.3333\end{bmatrix}
+\approx -1.1667
+\]
+
+- **Punkt optymalny:** \(x^\ast = \begin{bmatrix}0.6667 \\ 0.3333\end{bmatrix}\)  
+- **Wartość funkcji celu:** \(f(x^\ast) \approx -1.1667\)  
+- Ograniczenia aktywne: \(x_1 + x_2 = 1\)  
+- Pozostałe ograniczenia nierównościowe spełnione.
+
+Rozwiązanie potwierdza, że metoda ograniczeń aktywnych poprawnie wyznacza punkt
+optymalny w zbiorze dopuszczalnym dla ograniczeń nierównościowych.
+
+
+### (B) Rozwiązanie przy pomocy solvera `quadprog`
