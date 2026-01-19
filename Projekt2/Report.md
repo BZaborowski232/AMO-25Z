@@ -248,19 +248,12 @@ t = [-2;
 A = [1 1];
 b = 1;
 
-% -------------------------------------------------
-% Warunki KKT:
-% [ G   A' ] [ x ] = [ -t ]
-% [ A    0 ] [ λ ]   [  b ]
-% -------------------------------------------------
-
 KKT = [G, A';
        A, 0];
 
 rhs = [-t;
         b];
 
-% Rozwiązanie układu równań
 solution = KKT \ rhs;
 
 x_star = solution(1:2);
@@ -415,7 +408,6 @@ G = [2 0;
 t = [-2;
      -1];
 
-
 a_coeff = 1.5;
 b_coeff = -2.0;
 
@@ -551,7 +543,6 @@ Analogicznie do poprzednich podpunktów poniżej implementacja w MATLAB:
 % ZAD1_C
 function TASK1_C_kernel_elimination
 
-
 G = [2 0;
      0 1];
 t = [-2;
@@ -630,7 +621,6 @@ beq = 1;
 % Opcje solvera
 options = optimoptions('quadprog', 'Display', 'off');
 
-% Rozwiązanie problemu
 [x_star, fval] = quadprog(G, t, [], [], Aeq, beq, [], [], [], options);
 
 % Wyświetlenie wyników
@@ -1032,10 +1022,6 @@ A = [1  1;
 b = [1;
      0];
 
-%% Układ KKT
-% [ G   A' ] [ x ] = [ -t ]
-% [ A    0 ] [ λ ]   [  b ]
-
 KKT = [G, A';
        A, zeros(2)];
 
@@ -1376,7 +1362,6 @@ Rozwiązanie numeryczne uzyskano następującym kodem MATLAB:
 
 ```matlab
 function quadprog_TASK2
-% quadprog_TASK2 - rozwiązanie numeryczne zadania QP z dwoma ograniczeniami
 
 % Dane problemu
 G = [2 0; 0 1];
