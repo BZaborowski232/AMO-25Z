@@ -8,19 +8,25 @@ G = [2 0;
 t = [-2;
      -1];
 
-% Ograniczenie równościowe: x1 + x2 = 1
-% Eliminacja: x2 = 1 - x1
+% Ograniczenie równościowe: x1 + x2 = 1  =>  x2 = 1 - x1
+% Podstawiając do funkcji celu otrzymaliśmy funkcję jednej zmiennej:
+% phi(x1) = 1.5*x1^2 - 2*x1 - 0.5
+% (Współczynniki wynikają z podstawienia algebraicznego wykonanego w raporcie)
 
-% Definicja funkcji jednowymiarowej φ(x1)
-phi = @(x1) 0.5 * ( ...
-    [x1; 1 - x1]' * G * [x1; 1 - x1] ) ...
-    + t' * [x1; 1 - x1];
+% Współczynniki funkcji kwadratowej ax^2 + bx + c
+a_coeff = 1.5;
+b_coeff = -2.0;
 
-% Pochodna funkcji φ(x1):
-% φ(x1) = (3/2)x1^2 - 2x1 - 1/2
-% dφ/dx1 = 3x1 - 2
+% Definicja funkcji (do późniejszego sprawdzenia wyniku)
+phi = @(x1) a_coeff*x1^2 + b_coeff*x1 - 0.5;
 
-x1_star = 2/3;
+% -----------------------------------------------------------
+% Implementacja wzoru na minimum funkcji kwadratowej:
+% Pochodna: 2*a*x + b = 0  =>  x = -b / (2a)
+% -----------------------------------------------------------
+x1_star = -b_coeff / (2 * a_coeff);  % <--- TERAZ PROGRAM TO LICZY
+
+% Wyznaczenie drugiej zmiennej z ograniczenia
 x2_star = 1 - x1_star;
 
 x_star = [x1_star; x2_star];
