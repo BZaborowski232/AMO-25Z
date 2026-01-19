@@ -240,7 +240,7 @@ Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, prz
 function analytic_TASK1_A_Lagrange
 % ZAD1_A
 
-% Dane problemu
+% Dane
 G = [2 0;
      0 1];
 t = [-2;
@@ -260,14 +260,13 @@ KKT = [G, A';
 rhs = [-t;
         b];
 
-% Rozwiązanie układu równań liniowych
+% Rozwiązanie układu równań
 solution = KKT \ rhs;
 
-% Wyodrębnienie rozwiązania
 x_star = solution(1:2);
 lambda_star = solution(3);
 
-% Obliczenie f celu
+% f celu
 f_star = 0.5 * x_star' * G * x_star + t' * x_star;
 
 % Wyświetlenie wyników
