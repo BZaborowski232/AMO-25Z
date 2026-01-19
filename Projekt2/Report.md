@@ -405,27 +405,24 @@ f(x^\star) = \phi(x_1^\star) = -1.1667.
 Poniżej przedstawiono kod MATLAB weryfikujący obliczenia:
 
 ```matlab
+%ZAD1_B
 function TASK1_B_elimination
-% ZAD1_B
 
-% Dane
+
+% Dane 
 G = [2 0;
      0 1];
 t = [-2;
      -1];
 
-% Ograniczenie równościowe: x1 + x2 = 1
-% Eliminacja: x2 = 1 - x1
 
-% Definicja funkcji jednowymiarowej
-phi = @(x1) 0.5 * ( ...
-    [x1; 1 - x1]' * G * [x1; 1 - x1] ) ...
-    + t' * [x1; 1 - x1];
+a_coeff = 1.5;
+b_coeff = -2.0;
 
-% Pochodna funkcji:
-% 3x1 - 2
+phi = @(x1) a_coeff*x1^2 + b_coeff*x1 - 0.5;
 
-x1_star = 2/3;
+x1_star = -b_coeff / (2 * a_coeff);
+
 x2_star = 1 - x1_star;
 
 x_star = [x1_star; x2_star];
@@ -551,8 +548,9 @@ Otrzymane rozwiązanie jest zgodne z wynikami uzyskanymi metodą mnożników Lag
 Analogicznie do poprzednich podpunktów poniżej implementacja w MATLAB:
 
 ```matlab
-function TASK1_C_kernel_elimination
 % ZAD1_C
+function TASK1_C_kernel_elimination
+
 
 G = [2 0;
      0 1];
@@ -562,18 +560,18 @@ t = [-2;
 A = [1 1];
 b = 1;
 
-% Punkt szczególny: A*x_p = b
 x_p = [1; 0];
 
-% Wektor z jądra macierzy A
+% Wektor z jądra macierzy A (baza przestrzeni zerowej)
 z = [1; -1];
 
-% Funkcja jednowymiarowa
 phi = @(alpha) 0.5 * (x_p + z*alpha)' * G * (x_p + z*alpha) ...
                + t' * (x_p + z*alpha);
 
-% Minimum analityczne: 3alfa + 1 = 0
-alpha_star = -1/3;
+numerator = z' * G * x_p + t' * z;  
+denominator = z' * G * z;           
+
+alpha_star = -numerator / denominator;
 
 x_star = x_p + z * alpha_star;
 f_star = phi(alpha_star);
@@ -1158,28 +1156,26 @@ Poniżej implementacja zadania w MATLAB, tak jak dla każdej z powyższych sekcj
 
 clc; clear;
 
-%% Dane zadania
+%% Dane
 G = [2 0;
      0 1];
 
 t = [-2;
      -1];
 
-%% Eliminacja zmiennych z ograniczeń
-% x1 + x2 = 1
-% x1 - x2 = 0  ->  x1 = x2
+A_eq = [1  1;
+        1 -1];
 
-x1 = 1/2;
-x2 = 1/2;
+b_eq = [1;
+        0];
 
-x_opt = [x1;
-         x2];
+x_opt = A_eq \ b_eq;  % 
 
-%% Wartość funkcji celu
+% Wartość funkcji celu
 f_opt = 0.5 * x_opt' * G * x_opt + t' * x_opt;
 
 %% Wyniki
-disp('Rozwiązanie optymalne x*:');
+disp('Rozwiązanie optymalne x* (z przecięcia ograniczeń):');
 disp(x_opt);
 
 disp('Wartość funkcji celu f(x*):');
@@ -1311,29 +1307,35 @@ A = [1  1;
 b = [1;
      0];
 
-%% Punkt szczególny Ax = b
-xp = [1/2;
-      1/2];
+xp = A \ b;
 
-%% Wektor bazy jądra A (Az = 0)
-z = [1;
-    -1];
+disp('Punkt szczególny xp:');
+disp(xp);
 
-%% Funkcja jednowymiarowa phi(alpha) w postaci ogólnej
-% x(alpha) = xp + z*alpha
-phi = @(alpha) 0.5*(xp + z*alpha)'*G*(xp + z*alpha) + t'*(xp + z*alpha);
+Z = null(A); 
 
-%% Warunek konieczny minimum
-dphi = @(alpha) (z'*G*(xp + z*0.0) + t'*z);  % pochodna dla alpha = 0
-alpha_star = 0;
-
-%% Punkt optymalny
-x_star = xp + z * alpha_star;
+if isempty(Z)
+    disp('Jądro macierzy A jest puste (brak stopni swobody).');
+    disp('Optymalizacja w podprzestrzeni nie jest wymagana.');
+    
+    x_star = xp;
+    
+else
+    disp('Znaleziono kierunki swobodne w jądrze macierzy A.');
+    
+    numerator = Z' * G * xp + Z' * t;
+    denominator = Z' * G * Z;
+    
+    alpha_star = -denominator \ numerator;
+    
+    x_star = xp + Z * alpha_star;
+end
 
 %% Wartość funkcji celu
-f_star = 0.5*x_star'*G*x_star + t'*x_star;
+f_star = 0.5 * x_star' * G * x_star + t' * x_star;
 
 %% Wyświetlenie wyników
+disp(' ');
 disp('Rozwiązanie optymalne x*:');
 disp(x_star);
 
@@ -1593,6 +1595,94 @@ f(x^\ast) = \frac{1}{2} (x^\ast)^\top G x^\ast + t^\top x^\ast
 
 Rozwiązanie potwierdza, że metoda ograniczeń aktywnych poprawnie wyznacza punkt
 optymalny w zbiorze dopuszczalnym dla ograniczeń nierównościowych.
+
+Analogicznie co wcześniej, tutaj również zaimplementwowane zostało rozwiazanie w MATLABie:
+
+```matlab
+%ZAD2
+clc;
+
+%% Dane 
+G = [2 0;
+     0 1];
+t = [-2;
+     -1];
+
+% Definicja ograniczenia głównego: x1 + x2 <= 1
+A_ineq = [1 1]; 
+b_ineq = 1;
+
+x_curr = G \ (-t);
+
+disp(['Punkt startowy (bez ograniczeń): [', num2str(x_curr'), ']']);
+
+% Sprawdzamy, czy punkt [1; 1] spełnia x1 + x2 <= 1
+check_constraint = A_ineq * x_curr;
+
+if check_constraint > b_ineq
+    disp('-> Ograniczenie x1 + x2 <= 1 jest NARUSZONE (2 > 1).');
+    disp('-> Dodajemy ograniczenie do zbioru aktywnego.');
+    
+    A_active = A_ineq;
+    b_active = b_ineq;
+    
+    KKT_Matrix = [G, A_active';
+                  A_active, 0];
+              
+    RHS_Vector = [-t;
+                   b_active];
+    
+    sol = KKT_Matrix \ RHS_Vector;
+    
+    x_opt = sol(1:2);
+    lambda = sol(3);
+    
+    disp(['Nowy punkt optymalny: [', num2str(x_opt'), ']']);
+    disp(['Mnożnik Lagrange lambda: ', num2str(lambda)]);
+    
+    if lambda >= 0
+        disp('-> Warunek lambda >= 0 spełniony. Znaleziono minimum.');
+    else
+        disp('-> Lambda ujemna - należałoby usunąć ograniczenie (tu nie wystąpi).');
+    end
+    
+else
+    disp('-> Ograniczenia spełnione. Punkt jest optymalny.');
+    x_opt = x_curr;
+end
+
+if all(x_opt >= 0)
+    disp('-> Warunki nieujemności (x1>=0, x2>=0) są spełnione.');
+else
+    disp('-> Naruszenie warunków nieujemności! (Wymagana kolejna iteracja).');
+end
+
+%% Obliczenie wartości funkcji celu
+
+f_val = 0.5 * x_opt' * G * x_opt + t' * x_opt;
+
+disp(' ');
+disp('----------------WYNIKI KOŃCOWE----------------');
+disp('Punkt optymalny x*:');
+disp(x_opt);
+disp('Wartość funkcji celu f(x*):');
+disp(f_val);
+
+end
+```
+
+
+Wyniki:
+```
+----------------WYNIKI KOŃCOWE----------------
+Punkt optymalny x*:
+    0.6667
+    0.3333
+
+Wartość funkcji celu f(x*):
+   -1.1667
+```
+
 
 
 ### (B) Rozwiązanie przy pomocy solvera `quadprog`
