@@ -24,7 +24,7 @@ Zgodnie z treścią zadania, wartości liczbowe macierzy oraz wektorów definiuj
 programowania kwadratowego mogą zostać dobrane dowolnie, pod warunkiem zachowania
 wypukłości zadania.
 
-W niniejszym projekcie przyjęto problem o dwóch zmiennych decyzyjnych, którego funkcja celu
+Przyjęto problem o dwóch zmiennych decyzyjnych, którego funkcja celu
 ma postać wypukłej funkcji kwadratowej. Wypukłość zapewniona jest przez wybór macierzy
 \( G \in \mathbb{R}^{2 \times 2} \) jako macierzy symetrycznej dodatnio określonej.
 
@@ -71,7 +71,7 @@ oraz przejrzystą wizualizację problemu.
 
 ### Definicja funkcji celu i ograniczenia
 
-W niniejszym wariancie przyjęto następujące dane problemu:
+W tym wariancie przyjęto następujące dane problemu:
 
 \[
 G =
@@ -234,6 +234,69 @@ f(x^\ast) = \frac{1}{2} (x^\ast)^\top G x^\ast + t^\top x^\ast = 0.5 - 1.6667 = 
 - **Wartość funkcji celu:** \(f(x^\ast) = -1.1667\)  
 - **Mnożnik Lagrange’a:** \(\lambda^\ast = 2/3\)
 
+Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, przygotowana została również implementacja własna zadania w MATLABie:
+
+```matlab
+function analytic_TASK1_A_Lagrange
+% ZAD1_A
+
+% Dane problemu
+G = [2 0;
+     0 1];
+t = [-2;
+     -1];
+A = [1 1];
+b = 1;
+
+% -------------------------------------------------
+% Warunki KKT:
+% [ G   A' ] [ x ] = [ -t ]
+% [ A    0 ] [ λ ]   [  b ]
+% -------------------------------------------------
+
+KKT = [G, A';
+       A, 0];
+
+rhs = [-t;
+        b];
+
+% Rozwiązanie układu równań liniowych
+solution = KKT \ rhs;
+
+% Wyodrębnienie rozwiązania
+x_star = solution(1:2);
+lambda_star = solution(3);
+
+% Obliczenie f celu
+f_star = 0.5 * x_star' * G * x_star + t' * x_star;
+
+% Wyświetlenie wyników
+disp('--- Rozwiązanie analityczne (mnożniki Lagrange’a) ---')
+disp('Punkt optymalny x*:')
+disp(x_star)
+
+disp('Mnożnik Lagrange’a λ*:')
+disp(lambda_star)
+
+disp('Wartość funkcji celu f(x*):')
+disp(f_star)
+end
+```
+
+Wyniki:
+```
+Punkt optymalny x*:
+    0.6667
+    0.3333
+
+Mnożnik Lagrange’a λ*:
+    0.6667
+
+Wartość funkcji celu f(x*):
+   -1.1667
+```
+
+
 ### (B) Rozwiązanie metodą eliminacji zmiennych
 
 Z ograniczenia równościowego:
@@ -340,6 +403,54 @@ f(x^\star) = \phi(x_1^\star) = -1.1667.
 - \(x^\star = \begin{bmatrix} 2/3 \\ 1/3 \end{bmatrix}\)  
 - \(f(x^\star) = -1.1667\)
 
+Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, przygotowana została również implementacja własna zadania w MATLABie:
+
+```matlab
+function TASK1_B_elimination
+% ZAD1_B
+
+% Dane
+G = [2 0;
+     0 1];
+t = [-2;
+     -1];
+
+% Ograniczenie równościowe: x1 + x2 = 1
+% Eliminacja: x2 = 1 - x1
+
+% Definicja funkcji jednowymiarowej
+phi = @(x1) 0.5 * ( ...
+    [x1; 1 - x1]' * G * [x1; 1 - x1] ) ...
+    + t' * [x1; 1 - x1];
+
+% Pochodna funkcji:
+% 3x1 - 2
+
+x1_star = 2/3;
+x2_star = 1 - x1_star;
+
+x_star = [x1_star; x2_star];
+f_star = phi(x1_star);
+
+% Wyświetlenie wyników
+disp('--- Metoda eliminacji zmiennych ---')
+disp('Punkt optymalny x*:')
+disp(x_star)
+
+disp('Wartość funkcji celu f(x*):')
+disp(f_star)
+end
+```
+
+Wyniki:
+```
+Punkt optymalny x*:
+    0.6667
+    0.3333
+
+Wartość funkcji celu f(x*):
+   -1.1667
+```
 
 ### (C) Metoda eliminacji uogólnionej z wykorzystaniem jądra macierzy \(A\)
 
@@ -437,9 +548,61 @@ x^\ast =
 
 Otrzymane rozwiązanie jest zgodne z wynikami uzyskanymi metodą mnożników Lagrange’a oraz metodą eliminacji zmiennych.
 
+
+Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, przygotowana została również implementacja własna zadania w MATLABie:
+
+```matlab
+function TASK1_C_kernel_elimination
+% ZAD1_C
+
+G = [2 0;
+     0 1];
+t = [-2;
+     -1];
+
+A = [1 1];
+b = 1;
+
+% Punkt szczególny: A*x_p = b
+x_p = [1; 0];
+
+% Wektor z jądra macierzy A
+z = [1; -1];
+
+% Funkcja jednowymiarowa
+phi = @(alpha) 0.5 * (x_p + z*alpha)' * G * (x_p + z*alpha) ...
+               + t' * (x_p + z*alpha);
+
+% Minimum analityczne: 3alfa + 1 = 0
+alpha_star = -1/3;
+
+x_star = x_p + z * alpha_star;
+f_star = phi(alpha_star);
+
+disp('--- Metoda eliminacji uogólnionej (jądro A) ---')
+disp('Punkt optymalny x*:')
+disp(x_star)
+
+disp('Wartość funkcji celu f(x*):')
+disp(f_star)
+end
+```
+Wyniki:
+```
+--- Metoda eliminacji uogólnionej (jądro A) ---
+Punkt optymalny x*:
+    0.6667
+    0.3333
+
+Wartość funkcji celu f(x*):
+   -1.1667
+```
+
+
+
 ### (D) Rozwiązanie numeryczne z wykorzystaniem solvera `quadprog`
 
-Dla porównania zadanie rozwiązano również numerycznie w środowisku MATLAB z wykorzystaniem wbudowanego solvera `quadprog`. 
+Zadanie rozwiązano również numerycznie w środowisku MATLAB z wykorzystaniem wbudowanego solvera `quadprog`. 
 
 Problem programowania kwadratowego przy jednym ograniczeniu równościowym został zapisany w postaci standardowej:
 
@@ -524,7 +687,7 @@ Wykres poziomicowy ukazuje elipsy poziomic funkcji celu, prostą wynikającą z 
 
 ### Wnioski
 
-Wszystkie zastosowane metody: analityczna metoda mnożników Lagrange’a, eliminacja zmiennych, eliminacja uogólniona oraz rozwiązanie numeryczne prowadzą do tego samego rozwiązania optymalnego. Pokazuje to spójność teorii programowania kwadratowego oraz poprawność implementacji poszczególnych podejść.
+Wszystkie zastosowane metody: analityczna metoda mnożników Lagrange’a, eliminacja zmiennych, eliminacja uogólniona oraz rozwiązanie numeryczne prowadzą do tego samego rozwiązania optymalnego. Pokazuje to spójność teorii programowania kwadratowego oraz poprawność implementacji poszczególnych podejść. Wszystkie MATLAB-owwe implementacje zadan z sekcji A, B oraz C zwróciły wyniki jednakowe, do wyników otrzymanych rozwiązując zadania ręcznie.
 
 ## Wariant 2: dwa ograniczenia równościowe
 
@@ -751,24 +914,6 @@ x^\ast =
 \end{bmatrix}.
 \]
 
-
-
-Po rozwiązaniu powyższego układu równań otrzymujemy jako odpowieź następujące rozwiązanie:
-
-\[
-x^\ast =
-\begin{bmatrix}
-\frac{1}{2} \\
-\frac{1}{2}
-\end{bmatrix},
-\qquad
-\lambda^\ast =
-\begin{bmatrix}
-\frac{3}{2} \\
-\frac{1}{2}
-\end{bmatrix}.
-\]
-
 Otrzymany punkt spełnia oba ograniczenia równościowe oraz warunek stacjonarności, a ze względu na dodatnią określoność macierzy \(G\) stanowi globalne minimum rozważanego zadania.
 
 #### Wartość funkcji celu w punkcie optymalnym
@@ -870,6 +1015,69 @@ Ostatecznie wartość funkcji celu w punkcie optymalnym wynosi:
 f(x^\ast) = \frac{3}{8} - \frac{3}{2} = -\frac{9}{8} = -1.125.
 \]
 
+Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, przygotowana została również implementacja własna zadania w MATLABie:
+
+```matlab
+%ZAD2_A
+
+clc; clear;
+
+%% Dane
+G = [2 0;
+     0 1];
+
+t = [-2;
+     -1];
+
+A = [1  1;
+     1 -1];
+
+b = [1;
+     0];
+
+%% Układ KKT
+% [ G   A' ] [ x ] = [ -t ]
+% [ A    0 ] [ λ ]   [  b ]
+
+KKT = [G, A';
+       A, zeros(2)];
+
+rhs = [-t;
+        b];
+
+%% Rozwiązanie układu
+solution = KKT \ rhs;
+
+x_opt = solution(1:2);
+lambda_opt = solution(3:4);
+
+%% Wartość funkcji celu
+f_opt = 0.5 * x_opt' * G * x_opt + t' * x_opt;
+
+%% Wyniki
+disp('Rozwiązanie optymalne x*:');
+disp(x_opt);
+
+disp('Mnożniki Lagrange’a λ*:');
+disp(lambda_opt);
+
+disp('Wartość funkcji celu f(x*):');
+disp(f_opt);
+```
+
+Wyniki:
+```
+Rozwiązanie optymalne x*:
+    0.5000
+    0.5000
+
+Mnożniki Lagrange’a λ*:
+    0.7500
+    0.2500
+
+Wartość funkcji celu f(x*):
+   -1.1250
+```
 
 
 ### (B) Rozwiązanie metodą eliminacji zmiennych
@@ -943,6 +1151,52 @@ f(x^\ast) =
 \end{bmatrix}
 = -1.125.
 \]
+
+Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, przygotowana została również implementacja własna zadania w MATLABie:
+
+```matlab
+%ZAD2_B
+
+clc; clear;
+
+%% Dane zadania
+G = [2 0;
+     0 1];
+
+t = [-2;
+     -1];
+
+%% Eliminacja zmiennych z ograniczeń
+% x1 + x2 = 1
+% x1 - x2 = 0  ->  x1 = x2
+
+x1 = 1/2;
+x2 = 1/2;
+
+x_opt = [x1;
+         x2];
+
+%% Wartość funkcji celu
+f_opt = 0.5 * x_opt' * G * x_opt + t' * x_opt;
+
+%% Wyniki
+disp('Rozwiązanie optymalne x*:');
+disp(x_opt);
+
+disp('Wartość funkcji celu f(x*):');
+disp(f_opt);
+```
+
+Wyniki:
+```
+Rozwiązanie optymalne x*:
+    0.5000
+    0.5000
+
+Wartość funkcji celu f(x*):
+   -1.1250
+```
+
 
 ### (C) Metoda eliminacji uogólnionej z wykorzystaniem jądra macierzy \(A\)
 
@@ -1038,9 +1292,70 @@ f(x^\ast) = \phi(0) = -1.125.
 - **Punkt optymalny:** \(x^\ast = \begin{bmatrix} 1/2 \\ 1/2 \end{bmatrix}\)  
 - **Wartość funkcji celu:** \(f(x^\ast) = -1.125\)
 
+Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, przygotowana została również implementacja własna zadania w MATLABie:
+
+```matlab
+% ZAD2_C
+
+clc; clear;
+
+%% Dane zadania
+G = [2 0;
+     0 1];
+
+t = [-2;
+     -1];
+
+A = [1  1;
+     1 -1];
+
+b = [1;
+     0];
+
+%% Punkt szczególny Ax = b
+xp = [1/2;
+      1/2];
+
+%% Wektor bazy jądra A (Az = 0)
+z = [1;
+    -1];
+
+%% Funkcja jednowymiarowa phi(alpha) w postaci ogólnej
+% x(alpha) = xp + z*alpha
+phi = @(alpha) 0.5*(xp + z*alpha)'*G*(xp + z*alpha) + t'*(xp + z*alpha);
+
+%% Warunek konieczny minimum
+dphi = @(alpha) (z'*G*(xp + z*0.0) + t'*z);  % pochodna dla alpha = 0
+alpha_star = 0;
+
+%% Punkt optymalny
+x_star = xp + z * alpha_star;
+
+%% Wartość funkcji celu
+f_star = 0.5*x_star'*G*x_star + t'*x_star;
+
+%% Wyświetlenie wyników
+disp('Rozwiązanie optymalne x*:');
+disp(x_star);
+
+disp('Wartość funkcji celu f(x*):');
+disp(f_star);
+```
+
+Wyniki:
+
+```
+Rozwiązanie optymalne x*:
+    0.5000
+    0.5000
+
+Wartość funkcji celu f(x*):
+   -1.1250
+```
+
 ### (D) Rozwiązanie numeryczne z wykorzystaniem solvera `quadprog`
 
-Dla porównania, zadanie zostało rozwiązane również numerycznie z wykorzystaniem wbudowanego solvera `quadprog` w MATLABie, przy uwzględnieniu dwóch ograniczeń równościowych:
+Zadanie zostało rozwiązane również numerycznie z wykorzystaniem wbudowanego solvera `quadprog` w MATLABie, przy uwzględnieniu dwóch ograniczeń równościowych:
 
 \[
 A =
@@ -1099,13 +1414,13 @@ Interpretacja wyników:
 
 ### Wizualizacja problemu
 
-Zgodnie z treścią zadania wykonano take wizualizacje:
+Zgodnie z treścią zadania wykonano takei wizualizacje:
 - powierzchni funkcji celu \(f(x_1,x_2)\),
 - wykresów poziomic funkcji celu,
 - prostej opisującej ograniczenie równościowe,
 - punktu optymalnego leżącego na zbiorze dopuszczalnym.
 
-Wizualizacje zostały zapiane do pliku: /Visualisations/TASK1_Visualisations.png
+Wizualizacje zostały zapiane do pliku: /Visualisations/TASK1_2_Visualisations.png
 ![Wizualizacja zadania 1](Visualisations/TASK1_2_Visualisations.png)
 
 Jak widzimy, wizualizacje potwierdzają, że punkt optymalny odpowiada minimum funkcji celu przy jednoczesnym spełnieniu obu ograniczeń równościowych x1 + x2 = 1 oraz x1 - x2 = 0. Wykres trójwymiarowy przedstawia powierzchnię funkcji celu f(x) oraz punkt rozwiązania zadania z ograniczeniami.
@@ -1115,7 +1430,7 @@ Wykres poziomicowy ukazuje elipsy poziomic funkcji celu, a przecięcie linii wyn
 
 ### Zadanie 1 - Wnioski całościowe
 
-We wszystkich rozważonych wariantach zadania (jedno i dwa ograniczenia równościowe) uzyskano spójne wyniki przy zastosowaniu różnych metod optymalizacji: analitycznego wyznaczenia punktu stacjonarnego z wykorzystaniem mnożników Lagrange’a, metody eliminacji zmiennych, metody eliminacji uogólnionej z wykorzystaniem jądra macierzy ograniczeń oraz solvera numerycznego `quadprog`.  
+We wszystkich rozważonych wariantach zadania (jedno i dwa ograniczenia równościowe) uzyskano spójne wyniki przy zastosowaniu różnych metod optymalizacji: analitycznego wyznaczenia punktu stacjonarnego z wykorzystaniem mnożników Lagrange’a, metody eliminacji zmiennych, metody eliminacji uogólnionej z wykorzystaniem jądra macierzy ograniczeń oraz solvera numerycznego `quadprog`. Ponadto implementacja każdego z zadań w MATLAB również zwróciła jednakowe wyniki co rozwiązanie ręczne.  
 
 Dla wariantu z jednym ograniczeniem równościowym wszystkie metody prowadzą do punktu optymalnego \(x^\ast = [2/3, 1/3]\) z wartością funkcji celu \(f(x^\ast) = -1.1667\). Rozwiązanie to spełnia warunek równościowy \(x_1 + x_2 = 1\) i odpowiada intuicyjnej interpretacji geometrycznej, minimum funkcji kwadratowej na prostej ograniczenia.  
 
@@ -1280,8 +1595,6 @@ f(x^\ast) = \frac{1}{2} (x^\ast)^\top G x^\ast + t^\top x^\ast
 Rozwiązanie potwierdza, że metoda ograniczeń aktywnych poprawnie wyznacza punkt
 optymalny w zbiorze dopuszczalnym dla ograniczeń nierównościowych.
 
-
-### (B) Rozwiązanie przy pomocy solvera `quadprog`
 
 ### (B) Rozwiązanie przy pomocy solvera `quadprog`
 
@@ -1495,7 +1808,7 @@ x_1 \\ x_2 \\ x_3
 f(x^\ast) = 2973.3
 \]
 
-
+### (E) Interpretacja wyników
 Jak możemy zauważyc punkt optymalny pokazuje, jak rozdzielona powinna być produkcja trzech linii/urządzeń, aby minimalizować łączny koszt określony przez funkcję kwadratową \(f(x) = \frac{1}{2} x^\top G x + t^\top x\). Wszystkie ograniczenia są zdecydowanie spełnione:
   - Suma produkcji \(x_1 + x_2 + x_3 = 100\) jednostek.  
   - Produkcja każdej linii mieści się w wyznaczonych granicach minimalnych i maksymalnych: \(10 \le x_1 \le 50\), \(5 \le x_2 \le 40\), \(8 \le x_3 \le 60\).  
