@@ -403,7 +403,7 @@ f(x^\star) = \phi(x_1^\star) = -1.1667.
 - \(x^\star = \begin{bmatrix} 2/3 \\ 1/3 \end{bmatrix}\)  
 - \(f(x^\star) = -1.1667\)
 
-Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, przygotowana została również implementacja własna zadania w MATLABie:
+Poniżej przedstawiono kod MATLAB weryfikujący obliczenia:
 
 ```matlab
 function TASK1_B_elimination
@@ -549,7 +549,7 @@ x^\ast =
 Otrzymane rozwiązanie jest zgodne z wynikami uzyskanymi metodą mnożników Lagrange’a oraz metodą eliminacji zmiennych.
 
 
-Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, przygotowana została również implementacja własna zadania w MATLABie:
+Analogicznie do poprzednich podpunktów poniżej implementacja w MATLAB:
 
 ```matlab
 function TASK1_C_kernel_elimination
@@ -1015,7 +1015,7 @@ Ostatecznie wartość funkcji celu w punkcie optymalnym wynosi:
 f(x^\ast) = \frac{3}{8} - \frac{3}{2} = -\frac{9}{8} = -1.125.
 \]
 
-Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, przygotowana została również implementacja własna zadania w MATLABie:
+Podobnie co w zadaniu 1 tutaj również przygotowany został kod implementacji problemu w MATLABie:
 
 ```matlab
 %ZAD2_A
@@ -1152,7 +1152,7 @@ f(x^\ast) =
 = -1.125.
 \]
 
-Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, przygotowana została również implementacja własna zadania w MATLABie:
+Poniżej implementacja zadania w MATLAB, tak jak dla każdej z powyższych sekcji:
 
 ```matlab
 %ZAD2_B
@@ -1292,7 +1292,7 @@ f(x^\ast) = \phi(0) = -1.125.
 - **Punkt optymalny:** \(x^\ast = \begin{bmatrix} 1/2 \\ 1/2 \end{bmatrix}\)  
 - **Wartość funkcji celu:** \(f(x^\ast) = -1.125\)
 
-Poza ręcznym rozwiązaniem zadania "na kartce" i przepisaniu go do raportu, przygotowana została również implementacja własna zadania w MATLABie:
+Implementacja MATLAB:
 
 ```matlab
 % ZAD2_C
@@ -1428,7 +1428,7 @@ Wykres poziomicowy ukazuje elipsy poziomic funkcji celu, a przecięcie linii wyn
 
 
 
-### Zadanie 1 - Wnioski całościowe
+### Wnioski całościowe
 
 We wszystkich rozważonych wariantach zadania (jedno i dwa ograniczenia równościowe) uzyskano spójne wyniki przy zastosowaniu różnych metod optymalizacji: analitycznego wyznaczenia punktu stacjonarnego z wykorzystaniem mnożników Lagrange’a, metody eliminacji zmiennych, metody eliminacji uogólnionej z wykorzystaniem jądra macierzy ograniczeń oraz solvera numerycznego `quadprog`. Ponadto implementacja każdego z zadań w MATLAB również zwróciła jednakowe wyniki co rozwiązanie ręczne.  
 
